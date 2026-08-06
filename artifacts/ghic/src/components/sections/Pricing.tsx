@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
+import { CONTACT_MAILTO, GITHUB_APP_INSTALL_URL } from '@/lib/links';
 
 const GRAY = '#C9C9C9';
 
@@ -116,8 +117,17 @@ export function Pricing() {
                 ))}
               </ul>
 
-              <button
-                className="w-full py-4 text-sm font-bold uppercase tracking-widest transition-all wobble card-t"
+              {/* Enterprise goes to email; the self-serve tiers go to the
+                  GitHub App install, since installing is what actually
+                  starts the product. There is no checkout to send anyone
+                  to — see the Billing section of /terms. */}
+              <a
+                href={plan.name === 'Enterprise' ? CONTACT_MAILTO : GITHUB_APP_INSTALL_URL}
+                {...(plan.name === 'Enterprise'
+                  ? {}
+                  : { target: '_blank', rel: 'noreferrer noopener' })}
+                data-testid={`pricing-cta-${plan.name.toLowerCase()}`}
+                className="w-full py-4 text-sm font-bold uppercase tracking-widest transition-all wobble card-t block text-center no-underline"
                 style={{
                   fontFamily: "'Archivo Black', sans-serif",
                   border: `3px solid ${plan.black ? '#fff' : '#000'}`,
@@ -127,7 +137,7 @@ export function Pricing() {
                 }}
               >
                 {plan.cta}
-              </button>
+              </a>
             </motion.div>
           ))}
         </div>
