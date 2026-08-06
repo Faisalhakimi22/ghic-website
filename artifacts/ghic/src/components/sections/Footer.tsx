@@ -1,5 +1,7 @@
 import { Zap } from 'lucide-react';
 import { SiGithub, SiX } from 'react-icons/si';
+import { Link } from 'wouter';
+import { DASHBOARD_URL } from '@/lib/firebase';
 
 const GRAY = '#C9C9C9';
 
@@ -60,11 +62,41 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Links */}
+          {/* Links
+              Only entries with a real destination are listed. The previous
+              version rendered Changelog / Roadmap / SDK / CLI / About / Blog
+              as href="#", which looks like a fuller product than exists and
+              wastes a click for anyone who tries one. They come back when
+              the pages do. */}
           {[
-            { heading: 'Product', links: ['Features', 'Dashboard', 'Pricing', 'Changelog', 'Roadmap'] },
-            { heading: 'Developers', links: ['Documentation', 'API Reference', 'SDK', 'CLI', 'GitHub Marketplace'] },
-            { heading: 'Company', links: ['About', 'Blog', 'Privacy', 'Terms', 'Contact', 'Security'] },
+            {
+              heading: 'Product',
+              links: [
+                { label: 'Features', href: '/#features' },
+                { label: 'Live demo', href: '/#demo' },
+                { label: 'Pricing', href: '/pricing' },
+                { label: 'Dashboard', href: DASHBOARD_URL, external: true },
+              ],
+            },
+            {
+              heading: 'Developers',
+              links: [
+                { label: 'Documentation', href: '/docs' },
+                {
+                  label: 'GitHub',
+                  href: 'https://github.com/Faisalhakimi22/github-issue-classifier',
+                  external: true,
+                },
+              ],
+            },
+            {
+              heading: 'Company',
+              links: [
+                { label: 'Privacy', href: '/privacy' },
+                { label: 'Terms', href: '/terms' },
+                { label: 'Contact', href: 'mailto:faisalh5556@gmail.com', external: true },
+              ],
+            },
           ].map(col => (
             <div key={col.heading}>
               <h4 className="font-bold uppercase tracking-[0.2em] text-xs mb-4"
@@ -73,10 +105,25 @@ export function Footer() {
               </h4>
               <ul className="space-y-3">
                 {col.links.map(link => (
-                  <li key={link}>
-                    <a href="#" className="text-sm font-semibold text-black/55 hover:text-black transition-colors">
-                      {link}
-                    </a>
+                  <li key={link.label}>
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        {...(link.href.startsWith('http')
+                          ? { target: '_blank', rel: 'noreferrer noopener' }
+                          : {})}
+                        className="text-sm font-semibold text-black/55 hover:text-black transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-sm font-semibold text-black/55 hover:text-black transition-colors no-underline"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
