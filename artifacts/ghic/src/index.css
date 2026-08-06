@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -111,8 +111,8 @@
   --chart-4: 280 65% 60%;
   --chart-5: 340 75% 55%;
 
-  --app-font-sans: 'Inter', sans-serif;
-  --app-font-serif: Georgia, serif;
+  --app-font-sans: 'Space Grotesk', sans-serif;
+  --app-font-serif: 'Archivo Black', sans-serif;
   --app-font-mono: 'IBM Plex Mono', monospace;
   --radius: 0.5rem;
   
@@ -180,3 +180,27 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* ── Memphis design system ── */
+.display { font-family: 'Archivo Black', sans-serif; letter-spacing: -0.02em; }
+.hard { border: 3px solid #000; }
+.shadow-hard { box-shadow: 8px 8px 0 #000; }
+.shadow-hard-sm { box-shadow: 5px 5px 0 #000; }
+.shadow-hard-gray { box-shadow: 8px 8px 0 #C9C9C9; }
+.dots { background-image: radial-gradient(#000 2.4px, transparent 2.4px); background-size: 22px 22px; }
+.dots-gray { background-image: radial-gradient(#C9C9C9 2.6px, transparent 2.6px); background-size: 20px 20px; }
+.dots-white { background-image: radial-gradient(#fff 2.4px, transparent 2.4px); background-size: 22px 22px; }
+.stripes { background: repeating-linear-gradient(45deg, #000 0 10px, #fff 10px 20px); }
+.stripes-gray { background: repeating-linear-gradient(-45deg, #C9C9C9 0 12px, #fff 12px 24px); }
+.zigzag {
+  background:
+    linear-gradient(135deg, #000 25%, transparent 25%) -12px 0,
+    linear-gradient(225deg, #000 25%, transparent 25%) -12px 0,
+    linear-gradient(315deg, #000 25%, transparent 25%),
+    linear-gradient(45deg,  #000 25%, transparent 25%);
+  background-size: 24px 24px;
+  background-color: #fff;
+}
+.wobble:hover { transform: rotate(-1.2deg) translateY(-3px); }
+.card-t { transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }

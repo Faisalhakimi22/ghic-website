@@ -1,60 +1,224 @@
 import { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Hexagon, ArrowRight } from 'lucide-react';
-import { Link } from 'wouter';
+import { ArrowRight, LayoutDashboard, LogOut, Menu, X, Zap } from 'lucide-react';
+import { Link, useLocation } from 'wouter';
+import { DASHBOARD_URL } from '@/lib/firebase';
+import { useAuth } from '@/lib/auth';
+
+/**
+ * Section links live on the landing page, so they behave differently
+ * depending on where you are: a bare `#features` anchor only works if the
+ * section is on the current page. From /pricing or /docs it has to be
+ * `/#features`, or the link silently does nothing — which is how anchor
+ * navigation usually breaks once a one-page site grows a second page.
+ */
+const SECTION_LINKS = [
+  { label: 'Features', hash: '#features' },
+  { label: 'Demo', hash: '#demo' },
+];
+
+const PAGE_LINKS = [
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Docs', href: '/docs' },
+];
 
 export function Navbar() {
-  const { scrollY } = useScroll();
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [, setScrolled] = useState(false);
+  const [location] = useLocation();
+  const { user, loading, signOut } = useAuth();
+
+  const onHome = location === '/';
 
   useEffect(() => {
-    const unsubscribe = scrollY.on("change", (latest) => {
-      setIsScrolled(latest > 20);
-    });
-    return () => unsubscribe();
-  }, [scrollY]);
+    const handler = () => setScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', handler);
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  // Close the mobile menu on navigation, or it stays open over the new page.
+  useEffect(() => setMobileOpen(false), [location]);
+
+  const sectionHref = (hash: string) => (onHome ? hash : `/${hash}`);
 
   return (
-    <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
-        isScrolled 
-          ? 'bg-background/80 backdrop-blur-md border-border/50 py-3' 
-          : 'bg-transparent border-transparent py-5'
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    <header
+      className="sticky top-0 z-50 bg-white"
+      style={{ borderBottom: '3px solid #000', fontFamily: "'Space Grotesk', sans-serif" }}
     >
-      <div className="container mx-auto px-6 max-w-7xl flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="relative flex items-center justify-center w-8 h-8 rounded bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-            <Hexagon className="w-5 h-5 absolute" />
-            <div className="w-1.5 h-1.5 bg-current rounded-full" />
+      <div className="max-w-7xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between gap-4">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3 no-underline">
+          <div
+            className="w-10 h-10 flex items-center justify-center bg-black"
+            style={{ border: '3px solid #000', boxShadow: '4px 4px 0 #C9C9C9' }}
+          >
+            <Zap className="w-5 h-5 text-white" strokeWidth={2.5} />
           </div>
-          <span className="font-bold text-lg tracking-tight">GHIC</span>
+          <span
+            style={{
+              fontFamily: "'Archivo Black', sans-serif",
+              fontSize: '20px',
+              letterSpacing: '-0.02em',
+              color: '#000',
+            }}
+          >
+            GHIC
+          </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-          <a href="#features" className="hover:text-foreground transition-colors">Features</a>
-          <a href="#demo" className="hover:text-foreground transition-colors">Demo</a>
-          <a href="#integrations" className="hover:text-foreground transition-colors">Integrations</a>
-          <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
-          <a href="#docs" className="hover:text-foreground transition-colors">Docs</a>
+        {/* Nav links */}
+        <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-black/70">
+          {SECTION_LINKS.map(link => (
+            <a
+              key={link.label}
+              href={sectionHref(link.hash)}
+              className="hover:text-black transition-colors uppercase tracking-widest text-xs"
+            >
+              {link.label}
+            </a>
+          ))}
+          {PAGE_LINKS.map(link => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className="hover:text-black transition-colors uppercase tracking-widest text-xs no-underline"
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
 
-        <div className="flex items-center gap-4">
-          <Link href="/signin" className="hidden md:block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Sign in
-          </Link>
-          <a 
-            href="#install"
-            className="flex items-center gap-2 text-sm font-medium bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors shadow-[0_0_15px_rgba(var(--primary),0.3)] hover:shadow-[0_0_25px_rgba(var(--primary),0.5)]"
+        {/* CTA — nothing auth-dependent renders until Firebase has
+            answered, so a signed-in user never sees "Sign in" flash first. */}
+        <div className="flex items-center gap-3">
+          {loading ? (
+            <div className="hidden md:block w-32 h-9" aria-hidden />
+          ) : user ? (
+            <>
+              <a
+                href={DASHBOARD_URL}
+                data-testid="nav-dashboard"
+                className="hidden md:flex items-center gap-2 bg-black text-white px-5 py-2.5 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors"
+                style={{
+                  border: '3px solid #000',
+                  boxShadow: '4px 4px 0 #000',
+                  fontFamily: "'Archivo Black', sans-serif",
+                }}
+              >
+                <LayoutDashboard className="w-4 h-4" strokeWidth={2.5} />
+                Dashboard
+              </a>
+              <button
+                onClick={() => void signOut()}
+                title={`Sign out ${user.displayName || user.email || ''}`}
+                data-testid="nav-signout"
+                className="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-black/60 hover:text-black transition-colors"
+              >
+                {user.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt=""
+                    className="w-7 h-7 object-cover"
+                    style={{ border: '2px solid #000' }}
+                  />
+                ) : (
+                  <LogOut className="w-4 h-4" strokeWidth={2.5} />
+                )}
+                Sign out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                data-testid="nav-signin"
+                className="hidden md:block text-xs font-bold uppercase tracking-widest text-black/60 hover:text-black transition-colors no-underline"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/signup"
+                data-testid="nav-signup"
+                className="hidden md:flex items-center gap-2 bg-black text-white px-5 py-2.5 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors no-underline"
+                style={{
+                  border: '3px solid #000',
+                  boxShadow: '4px 4px 0 #000',
+                  fontFamily: "'Archivo Black', sans-serif",
+                }}
+              >
+                Install Free <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
+              </Link>
+            </>
+          )}
+          <button
+            className="md:hidden p-2"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           >
-            <span>Install on GitHub</span>
-            <ArrowRight className="w-4 h-4" />
-          </a>
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </div>
-    </motion.header>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="md:hidden bg-white border-t-[3px] border-black px-5 py-6 space-y-4">
+          {SECTION_LINKS.map(link => (
+            <a
+              key={link.label}
+              href={sectionHref(link.hash)}
+              className="block text-sm font-bold uppercase tracking-widest text-black/70 hover:text-black"
+              onClick={() => setMobileOpen(false)}
+            >
+              {link.label}
+            </a>
+          ))}
+          {PAGE_LINKS.map(link => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className="block text-sm font-bold uppercase tracking-widest text-black/70 hover:text-black no-underline"
+            >
+              {link.label}
+            </Link>
+          ))}
+
+          {user ? (
+            <>
+              <a
+                href={DASHBOARD_URL}
+                className="flex items-center justify-center gap-2 bg-black text-white px-5 py-3 text-sm font-bold uppercase tracking-wider"
+                style={{ border: '3px solid #000' }}
+              >
+                <LayoutDashboard className="w-4 h-4" strokeWidth={2.5} />
+                Dashboard
+              </a>
+              <button
+                onClick={() => void signOut()}
+                className="w-full text-sm font-bold uppercase tracking-widest text-black/60"
+              >
+                Sign out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="block text-sm font-bold uppercase tracking-widest text-black/70 no-underline"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/signup"
+                className="flex items-center justify-center gap-2 bg-black text-white px-5 py-3 text-sm font-bold uppercase tracking-wider no-underline"
+                style={{ border: '3px solid #000' }}
+              >
+                Install Free <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
+              </Link>
+            </>
+          )}
+        </div>
+      )}
+    </header>
   );
 }

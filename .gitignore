@@ -47,3 +47,11 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Local environment. `.env.example` is committed as the template; the real
+# `.env` never is. Firebase web config is public by design, but this file
+# is also where anything genuinely secret would end up first.
+.env
+.env.*
+!.env.example
+.vercel

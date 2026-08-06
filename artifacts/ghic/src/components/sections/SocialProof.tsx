@@ -1,49 +1,55 @@
-import { motion } from 'framer-motion';
-import { SiGithub, SiGoogle, SiStripe, SiLinear, SiVercel, SiNotion, SiHashicorp, SiAtlassian, SiDatadog } from 'react-icons/si';
+const GRAY = '#C9C9C9';
 
-const logos = [
-  { Icon: SiGithub, name: "GitHub" },
-  { Icon: SiAtlassian, name: "Atlassian" },
-  { Icon: SiGoogle, name: "Google" },
-  { Icon: SiStripe, name: "Stripe" },
-  { Icon: SiLinear, name: "Linear" },
-  { Icon: SiVercel, name: "Vercel" },
-  { Icon: SiNotion, name: "Notion" },
-  { Icon: SiHashicorp, name: "HashiCorp" },
-  { Icon: SiDatadog, name: "Datadog" },
+const TICKER_ITEMS = [
+  '96.2% classification accuracy',
+  'under 2.3 minutes average triage',
+  'zero configuration required',
+  '10,000+ repositories monitored',
+  'installs in 60 seconds',
+  '2,400+ engineering teams',
+  'explainable AI decisions',
+  'real-time webhook events',
 ];
 
 export function SocialProof() {
+  const doubled = [...TICKER_ITEMS, ...TICKER_ITEMS];
+
   return (
-    <section className="py-12 border-y border-border/50 bg-card/30 overflow-hidden">
-      <div className="container mx-auto px-6 max-w-7xl mb-6">
-        <p className="text-center text-sm font-medium text-muted-foreground uppercase tracking-wider">
-          Trusted by engineering teams at
-        </p>
-      </div>
-      
-      <div className="relative flex overflow-x-hidden group">
-        <div className="animate-marquee flex whitespace-nowrap items-center min-w-full">
-          {[...logos, ...logos, ...logos].map((logo, i) => (
-            <div key={`marquee-${i}`} className="flex items-center justify-center w-[200px] text-muted-foreground hover:text-foreground transition-colors opacity-60 hover:opacity-100">
-              <logo.Icon className="w-8 h-8" />
-            </div>
+    <div style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+      {/* Black ticker bar */}
+      <div className="bg-black text-white overflow-hidden" style={{ borderBottom: '3px solid #000' }}>
+        <div className="whitespace-nowrap py-3 flex" style={{ animation: 'ticker 28s linear infinite' }}>
+          {[0, 1].map(pass => (
+            <span key={pass} style={{ fontFamily: "'Archivo Black', sans-serif", fontSize: '13px', letterSpacing: '0.2em' }}>
+              {TICKER_ITEMS.map((item, i) => (
+                <span key={i}>
+                  {item.toUpperCase()}
+                  <span className="mx-6 text-white/40">◆</span>
+                </span>
+              ))}
+            </span>
           ))}
         </div>
       </div>
-      
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-33.33%); }
-        }
-        .animate-marquee {
-          animation: marquee 30s linear infinite;
-        }
-        .animate-marquee:hover {
-          animation-play-state: paused;
-        }
-      `}} />
-    </section>
+
+      {/* Brand logos row */}
+      <div className="bg-white py-10" style={{ borderBottom: '3px solid #000', fontFamily: "'Space Grotesk', sans-serif" }}>
+        <div className="max-w-7xl mx-auto px-5 md:px-8">
+          <p className="text-center text-xs font-bold uppercase tracking-[0.35em] text-black/40 mb-8">
+            Trusted by engineering teams at
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-4">
+            {['GitHub', 'Stripe', 'Vercel', 'Linear', 'Notion', 'Atlassian', 'Datadog', 'HashiCorp'].map(name => (
+              <span
+                key={name}
+                className="text-xs font-bold uppercase tracking-[0.3em] text-black/35 hover:text-black/70 transition-colors cursor-default"
+              >
+                {name}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

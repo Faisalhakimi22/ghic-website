@@ -1,157 +1,147 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+
+const GRAY = '#C9C9C9';
 
 const tabs = [
-  { id: 'rest', label: 'REST API' },
+  { id: 'rest',     label: 'REST API' },
   { id: 'webhooks', label: 'Webhooks' },
-  { id: 'sdk', label: 'SDK' },
-  { id: 'cli', label: 'CLI' },
+  { id: 'sdk',      label: 'TypeScript SDK' },
+  { id: 'cli',      label: 'CLI' },
 ];
+
+const codeSnippets: Record<string, string> = {
+  rest: `# Classify an issue on demand
+curl -X POST https://api.ghic.dev/v1/issues/classify \\
+  -H "Authorization: Bearer ghic_xxxx" \\
+  -H "Content-Type: application/json" \\
+  -d '{"issue_id":"GH-1247","repo":"acme/backend"}'
+
+# Response
+{
+  "id": "GH-1247",
+  "priority": "P1",
+  "labels": ["bug", "auth", "backend"],
+  "confidence": 0.942,
+  "reasoning": "High impact auth failure. Redis race condition."
+}`,
+  webhooks: `// Receive GHIC events in your app
+app.post('/ghic-webhook', (req, res) => {
+  const { event, issue, classification } = req.body;
+
+  if (event === 'issue.classified') {
+    console.log(\`Issue \${issue.number} → \${classification.priority}\`);
+    console.log('Labels:', classification.labels);
+    console.log('Confidence:', classification.confidence);
+  }
+
+  res.sendStatus(200);
+});`,
+  sdk: `import { GhicClient } from '@ghic/sdk';
+
+const ghic = new GhicClient({ apiKey: 'ghic_xxxx' });
+
+// Classify a new issue
+const result = await ghic.issues.classify({
+  issueId: 'GH-1247',
+  repo: 'acme/backend',
+});
+
+console.log(result.priority);    // "P1"
+console.log(result.labels);      // ["bug", "auth"]
+console.log(result.confidence);  // 0.942`,
+  cli: `# Install the GHIC CLI
+npm install -g @ghic/cli
+
+# Authenticate
+ghic auth login
+
+# Classify a GitHub issue
+ghic classify --repo acme/backend --issue 1247
+
+# ✓ Issue #1247 classified
+#   Priority: P1 · Critical
+#   Labels:   bug, auth, backend
+#   Confidence: 94.2%
+#   Time: 0.4s`,
+};
 
 export function DeveloperExperience() {
   const [activeTab, setActiveTab] = useState('rest');
 
   return (
-    <section id="docs" className="py-24 bg-card/30 border-y border-border/50">
-      <div className="container mx-auto px-6 max-w-5xl">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-            Built by developers, for developers.
-          </h2>
-          <p className="text-xl text-muted-foreground">
-            Every touchpoint is engineered to feel right.
+    <section id="docs" className="bg-white py-16 md:py-20" style={{ borderTop: '3px solid #000', fontFamily: "'Space Grotesk', sans-serif" }}>
+      <div className="max-w-7xl mx-auto px-5 md:px-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.35em] mb-3 flex items-center gap-3">
+              <span className="inline-block w-8 h-[3px] bg-black" />
+              Developer Experience
+            </p>
+            <h2 className="text-[2rem] md:text-[3.5rem] leading-[0.95]" style={{ fontFamily: "'Archivo Black', sans-serif", letterSpacing: '-0.02em' }}>
+              BUILT BY DEVS,{' '}
+              <span className="relative inline-block">
+                <span className="absolute -inset-x-1 inset-y-0.5 bg-black" aria-hidden />
+                <span className="relative text-white px-1">FOR DEVS.</span>
+              </span>
+            </h2>
+          </div>
+          <p className="max-w-sm text-sm font-semibold text-black/60 leading-relaxed">
+            Full REST API, TypeScript SDK, webhooks, and a CLI. Every touchpoint is engineered to feel right.
           </p>
         </div>
 
-        <div className="rounded-2xl border border-border bg-background overflow-hidden shadow-2xl">
-          <div className="flex overflow-x-auto border-b border-border bg-card">
-            {tabs.map((tab) => (
+        {/* Code block card */}
+        <div style={{ border: '3px solid #000', boxShadow: '8px 8px 0 #000' }}>
+          {/* Tabs */}
+          <div className="flex overflow-x-auto" style={{ borderBottom: '3px solid #000' }}>
+            <div className="flex items-center gap-2 px-5 py-3" style={{ borderRight: '3px solid #000', background: '#000' }}>
+              <div className="w-3 h-3 rounded-full bg-white/30" />
+              <div className="w-3 h-3 rounded-full bg-white/30" />
+              <div className="w-3 h-3 rounded-full bg-white/30" />
+            </div>
+            {tabs.map((tab, i) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-4 text-sm font-medium transition-colors relative whitespace-nowrap ${
-                  activeTab === tab.id ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-                }`}
+                className="px-6 py-3 text-xs font-bold uppercase tracking-widest whitespace-nowrap transition-colors"
+                style={{
+                  borderRight: '3px solid #000',
+                  background: activeTab === tab.id ? '#000' : '#fff',
+                  color: activeTab === tab.id ? '#fff' : 'rgba(0,0,0,0.5)',
+                  fontFamily: "'Archivo Black', sans-serif",
+                }}
               >
                 {tab.label}
-                {activeTab === tab.id && (
-                  <motion.div 
-                    layoutId="activeTabIndicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                  />
-                )}
               </button>
             ))}
           </div>
 
-          <div className="p-6 md:p-8 bg-[#0d1117] font-mono text-sm overflow-x-auto">
-            <AnimatePresence mode="wait">
-              {activeTab === 'rest' && (
-                <motion.div
-                  key="rest"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <pre className="text-gray-300">
-                    <span className="text-gray-500"># Classify a new issue on demand</span><br/>
-                    <span className="text-blue-400">curl</span> -X POST https://api.ghic.dev/v1/issues/classify \<br/>
-                    {'  '}-H <span className="text-green-400">"Authorization: Bearer ghic_xxxx"</span> \<br/>
-                    {'  '}-H <span className="text-green-400">"Content-Type: application/json"</span> \<br/>
-                    {'  '}-d <span className="text-yellow-300">'{'{'}"issue_id"<span className="text-gray-300">:</span> "GH-1247"<span className="text-gray-300">,</span> "repo"<span className="text-gray-300">:</span> "acme/backend"{'}'}'</span><br/>
-                    <br/>
-                    <span className="text-gray-500"># Response</span><br/>
-                    {'{'}<br/>
-                    {'  '}<span className="text-purple-400">"id"</span>: <span className="text-green-400">"GH-1247"</span>,<br/>
-                    {'  '}<span className="text-purple-400">"status"</span>: <span className="text-green-400">"classified"</span>,<br/>
-                    {'  '}<span className="text-purple-400">"prediction"</span>: {'{'}<br/>
-                    {'    '}<span className="text-purple-400">"priority"</span>: <span className="text-green-400">"P1"</span>,<br/>
-                    {'    '}<span className="text-purple-400">"confidence"</span>: <span className="text-orange-400">0.96</span>,<br/>
-                    {'    '}<span className="text-purple-400">"labels"</span>: [<span className="text-green-400">"bug"</span>, <span className="text-green-400">"backend"</span>, <span className="text-green-400">"auth"</span>]<br/>
-                    {'  '}{'}'}<br/>
-                    {'}'}
-                  </pre>
-                </motion.div>
-              )}
-              {activeTab === 'webhooks' && (
-                <motion.div
-                  key="webhooks"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <pre className="text-gray-300">
-                    <span className="text-gray-500">// Example payload received at your webhook endpoint</span><br/>
-                    {'{'}<br/>
-                    {'  '}<span className="text-purple-400">"event"</span>: <span className="text-green-400">"issue.classified"</span>,<br/>
-                    {'  '}<span className="text-purple-400">"timestamp"</span>: <span className="text-green-400">"2023-10-25T14:32:01Z"</span>,<br/>
-                    {'  '}<span className="text-purple-400">"data"</span>: {'{'}<br/>
-                    {'    '}<span className="text-purple-400">"repo"</span>: <span className="text-green-400">"acme/frontend"</span>,<br/>
-                    {'    '}<span className="text-purple-400">"issue_number"</span>: <span className="text-orange-400">492</span>,<br/>
-                    {'    '}<span className="text-purple-400">"classification"</span>: {'{'}<br/>
-                    {'      '}<span className="text-purple-400">"is_duplicate"</span>: <span className="text-orange-400">true</span>,<br/>
-                    {'      '}<span className="text-purple-400">"duplicate_of"</span>: <span className="text-orange-400">480</span>,<br/>
-                    {'      '}<span className="text-purple-400">"suggested_action"</span>: <span className="text-green-400">"close_as_duplicate"</span><br/>
-                    {'    '}{'}'}<br/>
-                    {'  '}{'}'}<br/>
-                    {'}'}
-                  </pre>
-                </motion.div>
-              )}
-              {activeTab === 'sdk' && (
-                <motion.div
-                  key="sdk"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <pre className="text-gray-300">
-                    <span className="text-blue-400">import</span> {'{'} GHICClient {'}'} <span className="text-blue-400">from</span> <span className="text-green-400">'@ghic/node'</span>;<br/>
-                    <br/>
-                    <span className="text-blue-400">const</span> client = <span className="text-blue-400">new</span> GHICClient({'{'}<br/>
-                    {'  '}apiKey: process.env.GHIC_API_KEY<br/>
-                    {'}'});<br/>
-                    <br/>
-                    <span className="text-gray-500">// Fetch analytics for custom reporting</span><br/>
-                    <span className="text-blue-400">const</span> stats = <span className="text-blue-400">await</span> client.analytics.getVelocity({'{'}<br/>
-                    {'  '}repo: <span className="text-green-400">'acme/backend'</span>,<br/>
-                    {'  '}timeframe: <span className="text-green-400">'30d'</span><br/>
-                    {'}'});<br/>
-                    <br/>
-                    console.<span className="text-blue-400">log</span>(<span className="text-green-400">`Avg triage time: ${'{'}stats.avgTriageMinutes{'}'}m`</span>);
-                  </pre>
-                </motion.div>
-              )}
-              {activeTab === 'cli' && (
-                <motion.div
-                  key="cli"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <pre className="text-gray-300">
-                    <span className="text-gray-500"># Install the CLI</span><br/>
-                    <span className="text-blue-400">npm</span> install -g ghic-cli<br/>
-                    <br/>
-                    <span className="text-gray-500"># Authenticate</span><br/>
-                    ghic login<br/>
-                    <br/>
-                    <span className="text-gray-500"># Run local intelligence against an unstaged commit</span><br/>
-                    ghic predict --commit <span className="text-green-400">"HEAD"</span><br/>
-                    <br/>
-                    <span className="text-gray-500"># Output:</span><br/>
-                    <span className="text-green-400">✓</span> Analyzed 3 files modified<br/>
-                    <span className="text-green-400">✓</span> Found 1 related issue: #1247<br/>
-                    <span className="text-blue-400">i</span> Suggests closing #1247 automatically.
-                  </pre>
-                </motion.div>
-              )}
-            </AnimatePresence>
+          {/* Code area */}
+          <div className="bg-black p-6 md:p-8 overflow-x-auto">
+            <pre className="font-mono text-sm leading-relaxed text-white/80 whitespace-pre">
+              {codeSnippets[activeTab]}
+            </pre>
           </div>
+        </div>
+
+        {/* Bottom row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
+          {[
+            { title: 'OpenAPI Spec',   desc: 'Full specification. Generate clients in any language.' },
+            { title: '< 200ms',        desc: 'Average API response time. No perceptible latency.' },
+            { title: 'TypeScript First', desc: 'Every SDK method is fully typed. Autocomplete included.' },
+          ].map((item, i) => (
+            <div key={i} className="p-5"
+              style={{
+                border: '3px solid #000',
+                boxShadow: i === 1 ? `6px 6px 0 ${GRAY}` : '6px 6px 0 #000',
+                background: i === 1 ? '#000' : '#fff',
+                color: i === 1 ? '#fff' : '#000',
+              }}>
+              <p className="font-bold text-lg mb-1" style={{ fontFamily: "'Archivo Black', sans-serif" }}>{item.title}</p>
+              <p className="text-sm" style={{ color: i === 1 ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.55)' }}>{item.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

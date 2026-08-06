@@ -1,214 +1,162 @@
 import { motion } from 'framer-motion';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
-import { Bell, Search, LayoutDashboard, ListTodo, Activity, Tag, Webhook, Settings, CheckCircle2, AlertCircle } from 'lucide-react';
+import { BarChart3, Clock, Copy, Target, TrendingDown, TrendingUp, Zap, Activity } from 'lucide-react';
 
-const velocityData = Array.from({ length: 30 }).map((_, i) => ({
-  day: i + 1,
-  resolved: Math.floor(Math.random() * 20) + 5 + (i * 0.5)
-}));
+const GRAY = '#C9C9C9';
 
-const priorityData = [
-  { name: 'P1', count: 12 },
-  { name: 'P2', count: 28 },
-  { name: 'P3', count: 45 },
-  { name: 'P4', count: 15 },
-];
+const Triangle = ({ className = '', color = '#000' }) => (
+  <svg className={className} viewBox="0 0 24 24">
+    <path d="M12 2 L23 22 H1 Z" fill={color} />
+  </svg>
+);
 
-const typeData = [
-  { name: 'Bug', value: 40, color: '#ef4444' },
-  { name: 'Feature', value: 35, color: '#3b82f6' },
-  { name: 'Docs', value: 15, color: '#10b981' },
-  { name: 'Other', value: 10, color: '#8b5cf6' },
+const metrics = [
+  { label: 'Processed Today',      value: '47',    change: '+12%', up: true,  icon: Activity },
+  { label: 'Avg Triage Time',      value: '2.3m',  change: '-8%',  up: false, icon: Clock },
+  { label: 'Duplicate Rate',       value: '18%',   change: '-2%',  up: false, icon: Copy },
+  { label: 'Prediction Accuracy',  value: '96.2%', change: '+0.4%',up: true,  icon: Target },
 ];
 
 const recentActivity = [
-  { id: '#1250', title: 'Memory leak in worker pool', status: 'P1', time: '2m ago' },
-  { id: '#1249', title: 'Update README installation steps', status: 'P4', time: '15m ago' },
-  { id: '#1248', title: 'Add dark mode support', status: 'P2', time: '1h ago' },
-  { id: '#1247', title: 'API returns 500 on token refresh', status: 'P1', time: '2h ago' },
-  { id: '#1246', title: 'Fix typo in settings page', status: 'P4', time: '3h ago' },
+  { issue: '#1247 – API returns 500 on token refresh',  label: 'P1 · Critical', time: '0m ago' },
+  { issue: '#1246 – Dark mode flicker on Safari',        label: 'P3 · Low',     time: '4m ago' },
+  { issue: '#1245 – Duplicate of #1201',                 label: 'Duplicate',    time: '9m ago' },
+  { issue: '#1244 – Rate limiter missing for /v2/search',label: 'P2 · Medium',  time: '14m ago' },
+  { issue: '#1243 – Webhook retry logic broken',         label: 'P1 · Critical',time: '21m ago' },
 ];
 
 export function DashboardShowcase() {
   return (
-    <section className="py-24 bg-background overflow-hidden relative">
-      <div className="container mx-auto px-6 max-w-7xl">
-        <div className="mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-            Your repository's intelligence, at a glance.
-          </h2>
+    <section className="bg-white py-16 md:py-20" style={{ borderTop: '3px solid #000', fontFamily: "'Space Grotesk', sans-serif" }}>
+      <div className="max-w-7xl mx-auto px-5 md:px-8">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.35em] mb-3 flex items-center gap-3">
+              <span className="inline-block w-8 h-[3px] bg-black" />
+              Dashboard
+            </p>
+            <h2 className="text-[2rem] md:text-[3.5rem] leading-[0.95]" style={{ fontFamily: "'Archivo Black', sans-serif", letterSpacing: '-0.02em' }}>
+              YOUR COMMAND{' '}
+              <span className="relative inline-block">
+                <span className="absolute -inset-x-1 inset-y-0.5 bg-black" aria-hidden />
+                <span className="relative text-white px-1">CENTER.</span>
+              </span>
+            </h2>
+          </div>
+          <p className="max-w-sm text-sm font-semibold text-black/60 leading-relaxed">
+            A live view of every issue your team handles — classified, ranked, and explained.
+          </p>
         </div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "0px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="rounded-2xl border border-border bg-card shadow-2xl overflow-hidden flex flex-col md:flex-row h-[800px]"
-        >
-          {/* Sidebar */}
-          <div className="w-full md:w-64 bg-secondary/30 border-r border-border p-4 flex flex-col hidden md:flex">
-            <div className="flex items-center gap-2 px-2 mb-8">
-              <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center text-primary">
-                <LayoutDashboard className="w-4 h-4" />
-              </div>
-              <span className="font-semibold">Acme Corp</span>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Metric tiles */}
+          {metrics.map((m, i) => {
+            const Icon = m.icon;
+            const isBlack = i === 0 || i === 3;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+                className="md:col-span-3 p-6 relative overflow-hidden card-t wobble"
+                style={{
+                  border: '3px solid #000',
+                  boxShadow: isBlack ? `8px 8px 0 ${GRAY}` : '8px 8px 0 #000',
+                  background: isBlack ? '#000' : '#fff',
+                  color: isBlack ? '#fff' : '#000',
+                }}
+              >
+                {isBlack && (
+                  <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full opacity-10"
+                    style={{ backgroundImage: 'radial-gradient(#fff 2.4px, transparent 2.4px)', backgroundSize: '22px 22px' }} />
+                )}
+                <Icon className="w-6 h-6 mb-4" strokeWidth={2.5} />
+                <p className="text-sm font-bold uppercase tracking-widest mb-1" style={{ color: isBlack ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>
+                  {m.label}
+                </p>
+                <p className="text-4xl md:text-5xl" style={{ fontFamily: "'Archivo Black', sans-serif" }}>{m.value}</p>
+                <div className="flex items-center gap-1 mt-2">
+                  {m.up ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
+                  <span className="text-xs font-bold">{m.change} this week</span>
+                </div>
+              </motion.div>
+            );
+          })}
 
-            <nav className="space-y-1">
-              {[
-                { icon: LayoutDashboard, label: 'Dashboard', active: true },
-                { icon: ListTodo, label: 'Issues' },
-                { icon: Activity, label: 'Analytics' },
-                { icon: Tag, label: 'Labels' },
-                { icon: Webhook, label: 'Webhooks' },
-                { icon: Settings, label: 'Settings' },
-              ].map((item, i) => (
-                <div key={i} className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium cursor-pointer transition-colors ${item.active ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary hover:text-foreground'}`}>
-                  <item.icon className="w-4 h-4" />
-                  {item.label}
+          {/* Activity feed */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="md:col-span-7 p-7 relative"
+            style={{ border: '3px solid #000', boxShadow: '8px 8px 0 #000', background: '#fff' }}
+          >
+            <p className="text-xs font-bold uppercase tracking-[0.3em] mb-5">Live Activity Feed</p>
+            <div className="space-y-3">
+              {recentActivity.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-4 p-3 justify-between"
+                  style={{ border: '2px solid #000', background: i === 0 ? '#000' : '#fff', color: i === 0 ? '#fff' : '#000' }}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <Zap className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.5} />
+                    <span className="text-xs font-semibold truncate">{item.issue}</span>
+                  </div>
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <span
+                      className="text-[10px] font-bold uppercase tracking-wider px-2 py-1"
+                      style={{
+                        border: `2px solid ${i === 0 ? '#fff' : '#000'}`,
+                        background: item.label.includes('P1') ? (i === 0 ? '#fff' : '#000') : 'transparent',
+                        color: item.label.includes('P1') ? (i === 0 ? '#000' : '#fff') : 'inherit',
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                    <span className="text-[10px] font-mono" style={{ color: i === 0 ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)' }}>
+                      {item.time}
+                    </span>
+                  </div>
                 </div>
               ))}
-            </nav>
-          </div>
-
-          {/* Main Content */}
-          <div className="flex-1 flex flex-col overflow-hidden bg-background">
-            {/* Header */}
-            <header className="h-14 border-b border-border flex items-center justify-between px-6 bg-card/50">
-              <div className="flex items-center gap-4">
-                <div className="px-3 py-1.5 rounded-md bg-secondary text-sm font-medium border border-border flex items-center gap-2 cursor-pointer">
-                  acme/backend <span className="text-muted-foreground opacity-50">▾</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 text-muted-foreground">
-                <Search className="w-4 h-4 cursor-pointer hover:text-foreground" />
-                <Bell className="w-4 h-4 cursor-pointer hover:text-foreground" />
-                <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold">
-                  JS
-                </div>
-              </div>
-            </header>
-
-            {/* Dashboard Grid */}
-            <div className="p-6 overflow-y-auto">
-              {/* Metrics */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                {[
-                  { label: "Processed Today", value: "47", change: "+12%" },
-                  { label: "Avg Triage Time", value: "2.3m", change: "-8%" },
-                  { label: "Duplicate Rate", value: "18%", change: "-2%" },
-                  { label: "Prediction Accuracy", value: "96.2%", change: "+0.4%" },
-                ].map((stat, i) => (
-                  <div key={i} className="p-4 rounded-xl border border-border bg-card">
-                    <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
-                    <div className="flex items-end gap-2">
-                      <h4 className="text-2xl font-bold">{stat.value}</h4>
-                      <span className={`text-xs font-medium mb-1 ${stat.change.startsWith('+') ? 'text-green-500' : 'text-primary'}`}>{stat.change}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Charts Row */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                <div className="lg:col-span-2 p-6 rounded-xl border border-border bg-card">
-                  <h4 className="font-semibold mb-4">Resolution Velocity (30d)</h4>
-                  <div className="h-[250px] w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={velocityData}>
-                        <defs>
-                          <linearGradient id="colorVelocity" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
-                            <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                          </linearGradient>
-                        </defs>
-                        <XAxis dataKey="day" hide />
-                        <YAxis hide />
-                        <Tooltip 
-                          contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}
-                          itemStyle={{ color: 'hsl(var(--foreground))' }}
-                        />
-                        <Area type="monotone" dataKey="resolved" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorVelocity)" />
-                      </AreaChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-xl border border-border bg-card flex flex-col">
-                  <h4 className="font-semibold mb-4">Issues by Priority</h4>
-                  <div className="flex-1 w-full min-h-[200px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={priorityData} layout="vertical" margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-                        <XAxis type="number" hide />
-                        <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{fill: 'hsl(var(--muted-foreground))'}} />
-                        <Tooltip cursor={{fill: 'hsl(var(--secondary))'}} contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }}/>
-                        <Bar dataKey="count" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} barSize={24} />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom Row */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 p-6 rounded-xl border border-border bg-card">
-                  <div className="flex items-center justify-between mb-4">
-                    <h4 className="font-semibold">Recent Intelligence Activity</h4>
-                    <button className="text-sm text-primary hover:underline">View all</button>
-                  </div>
-                  <div className="space-y-4">
-                    {recentActivity.map((item, i) => (
-                      <div key={i} className="flex items-center justify-between p-3 rounded-lg hover:bg-secondary/50 transition-colors border border-transparent hover:border-border">
-                        <div className="flex items-center gap-3">
-                          <CheckCircle2 className="w-4 h-4 text-green-500" />
-                          <div>
-                            <p className="text-sm font-medium">{item.title}</p>
-                            <p className="text-xs text-muted-foreground">{item.id} • Processed {item.time}</p>
-                          </div>
-                        </div>
-                        <div className={`px-2 py-1 rounded text-xs font-medium border ${item.status === 'P1' ? 'bg-red-500/10 text-red-500 border-red-500/20' : item.status === 'P2' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' : 'bg-blue-500/10 text-blue-500 border-blue-500/20'}`}>
-                          {item.status}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-xl border border-border bg-card">
-                  <h4 className="font-semibold mb-4">Type Distribution</h4>
-                  <div className="h-[200px] w-full flex items-center justify-center">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={typeData}
-                          innerRadius={60}
-                          outerRadius={80}
-                          paddingAngle={5}
-                          dataKey="value"
-                          stroke="none"
-                        >
-                          {typeData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                        <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', borderRadius: '8px' }} />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 mt-4">
-                    {typeData.map((type, i) => (
-                      <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: type.color }} />
-                        {type.name}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+
+          {/* Stats card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="md:col-span-5 p-7 relative overflow-hidden"
+            style={{ border: '3px solid #000', boxShadow: `8px 8px 0 ${GRAY}`, background: GRAY }}
+          >
+            <Triangle className="absolute -bottom-4 -right-4 w-24 h-24 rotate-12 opacity-15" />
+            <p className="text-xs font-bold uppercase tracking-[0.3em] mb-5">Weekly Breakdown</p>
+            <div className="space-y-4">
+              {[
+                { label: 'Bugs classified',        pct: 82, count: '38' },
+                { label: 'Feature requests',       pct: 60, count: '28' },
+                { label: 'Questions / Docs',       pct: 45, count: '21' },
+                { label: 'Duplicates caught',      pct: 38, count: '18' },
+              ].map((row, i) => (
+                <div key={i}>
+                  <div className="flex justify-between text-xs font-bold mb-1.5">
+                    <span>{row.label}</span>
+                    <span>{row.count}</span>
+                  </div>
+                  <div className="h-3 bg-black/10 w-full" style={{ border: '1px solid #000' }}>
+                    <div className="h-full bg-black transition-all" style={{ width: `${row.pct}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
