@@ -61,7 +61,7 @@ ghic classify --repo acme/backend --issue 1247
 # ✓ Issue #1247 classified
 #   Priority: P1 · Critical
 #   Labels:   bug, auth, backend
-#   Confidence: 94.2%
+#   Confidence: 0.87
 #   Time: 0.4s`,
 };
 
