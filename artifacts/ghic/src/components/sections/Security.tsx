@@ -3,13 +3,29 @@ import { Shield, Lock, Eye, Key, Server, CheckSquare } from 'lucide-react';
 
 const GRAY = '#C9C9C9';
 
+/**
+ * Every claim here is one the implementation can back.
+ *
+ * Removed, because they were not true: "SOC 2 Type II — audited annually"
+ * (there is no audit), "GDPR Compliant — full compliance with GDPR, CCPA
+ * and standard DPAs" (a claim about organisational process, not code), and
+ * a "99.9% Uptime SLA" (no SLA is offered, and /terms explicitly disclaims
+ * guaranteed availability). Those are the first things an enterprise
+ * security review asks you to evidence, and claiming a certification you
+ * do not hold is a materially misleading statement — a worse problem than
+ * having fewer badges.
+ *
+ * What replaced them is stronger anyway, because it is specific and
+ * checkable: the permission scopes are visible on the GitHub App's own
+ * install screen, and the secret-exclusion behaviour is in the source.
+ */
 const securityFeatures = [
-  { icon: Shield,      title: 'SOC 2 Type II',         desc: 'Audited annually. Your data handled to enterprise standards.', black: true },
-  { icon: Lock,        title: 'AES-256 Encryption',    desc: 'All data encrypted in transit and at rest — always.', black: false },
-  { icon: Eye,         title: 'No Code Access',         desc: 'GHIC reads only issue metadata. Never source files or diffs.', black: false },
-  { icon: Key,         title: 'Minimal Permissions',   desc: 'GitHub App requests only the scopes it needs — nothing more.', black: true },
-  { icon: Server,      title: '99.9% Uptime SLA',      desc: 'Enterprise plans include guaranteed availability and support.', black: false },
-  { icon: CheckSquare, title: 'GDPR Compliant',        desc: 'Full compliance with GDPR, CCPA, and standard DPAs.', black: false },
+  { icon: Key,         title: 'Minimal Permissions',   desc: 'Issues read/write and metadata read. Nothing else — check the install screen.', black: true },
+  { icon: Lock,        title: 'Encrypted In Transit',  desc: 'All traffic over TLS; data at rest encrypted by our hosting and database providers.', black: false },
+  { icon: Eye,         title: 'No Code Written',        desc: 'GHIC comments and suggests. It never merges, closes, pushes, or edits your code.', black: false },
+  { icon: Shield,      title: 'Secrets Never Indexed', desc: 'Credential files are skipped and token-shaped values redacted before anything is stored.', black: true },
+  { icon: Server,      title: 'Signed Webhooks',        desc: 'Every payload is HMAC-verified. Unsigned requests are rejected outright.', black: false },
+  { icon: CheckSquare, title: '90-Day Retention',       desc: 'Predictions are deleted after 90 days. Your issues are never used to train models.', black: false },
 ];
 
 export function Security() {

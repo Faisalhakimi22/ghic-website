@@ -210,9 +210,9 @@ export function Hero() {
           <div className="md:col-span-3 hard bg-black text-white shadow-hard p-6 relative overflow-hidden card-t wobble">
             <div className="absolute -right-6 -top-6 w-28 h-28 dots-white opacity-30 rounded-full" />
             <BarChart3 className="w-7 h-7 mb-4" strokeWidth={2.5} />
-            <p className="display text-4xl md:text-5xl">96.2%</p>
+            <p className="display text-4xl md:text-5xl">82%</p>
             <p className="mt-2 text-sm font-bold uppercase tracking-widest text-white/60">
-              AI classification accuracy
+              precision on held-out issues
             </p>
           </div>
 

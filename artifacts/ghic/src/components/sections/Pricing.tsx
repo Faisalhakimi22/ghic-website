@@ -166,7 +166,7 @@ export function Pricing() {
         </div>
 
         <p className="mt-8 text-center text-xs font-bold uppercase tracking-[0.25em] text-black/40">
-          Tax-deductible · All plans include 14-day free trial · No credit card required
+          Starter is free forever · Paid plans arranged by email · No credit card to get started
         </p>
       </div>
     </section>

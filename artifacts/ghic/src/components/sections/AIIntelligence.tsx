@@ -83,15 +83,22 @@ export function AIIntelligence() {
               style={{ border: '3px solid #000', boxShadow: '8px 8px 0 #000', background: '#000', color: '#fff' }}>
               <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full opacity-10"
                 style={{ backgroundImage: 'radial-gradient(#fff 2.4px, transparent 2.4px)', backgroundSize: '22px 22px' }} />
-              <p className="text-xs font-bold uppercase tracking-[0.35em] mb-4 text-white/60">Total Benchmark</p>
-              <p className="text-[5rem] leading-none" style={{ fontFamily: "'Archivo Black', sans-serif" }}>94.2%</p>
+              {/* Real numbers from the published model card. The previous
+                  version claimed 94.2% accuracy over 500,000 issues across
+                  847 repositories, "audited quarterly" — none of which
+                  happened. The honest figure is a stronger claim to a
+                  technical buyer anyway, because it names the metric and
+                  can be checked. */}
+              <p className="text-xs font-bold uppercase tracking-[0.35em] mb-4 text-white/60">Measured, not claimed</p>
+              <p className="text-[5rem] leading-none" style={{ fontFamily: "'Archivo Black', sans-serif" }}>82%</p>
               <p className="mt-2 text-sm font-bold uppercase tracking-widest text-white/60">
-                classification accuracy across 500k real GitHub issues
+                precision on a held-out test set
               </p>
               <div className="mt-8 pt-6" style={{ borderTop: '2px solid rgba(255,255,255,0.15)' }}>
                 <p className="text-xs font-mono text-white/50 leading-relaxed">
-                  Benchmark: 500,000 issues · 12 months · 847 repositories · 
-                  3 industry verticals · Results audited quarterly.
+                  1,177 unseen issues · 82% precision at 54% recall ·
+                  walk-forward validation, single look at the test set ·
+                  full method and numbers in the public model card.
                 </p>
               </div>
             </div>

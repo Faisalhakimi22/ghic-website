@@ -72,8 +72,14 @@ export function CTABanner() {
           </a>
         </div>
 
+        {/* Each of these is a fact that can be checked. The previous line
+            claimed "GDPR compliant", which is an assertion about an
+            organisation's processes -- DPAs, a records register, a
+            representative -- not something a codebase can substantiate,
+            and it is the kind of claim a regulator or an enterprise buyer's
+            security review will ask you to evidence. */}
         <p className="mt-8 text-xs font-bold uppercase tracking-[0.2em] text-white/30">
-          No credit card required · Cancel any time · GDPR compliant
+          Free to install · Uninstall any time · 90-day data retention
         </p>
       </div>
 

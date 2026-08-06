@@ -5,13 +5,13 @@ const GRAY = '#C9C9C9';
 
 const faqs = [
   { q: 'How does GHIC access my repositories?',    a: 'Via GitHub App with minimal required permissions. You control exactly which repositories GHIC can see.' },
-  { q: 'Does GHIC read my code?',                  a: 'No. GHIC only reads issue titles, descriptions, labels, and comments — never source code files or diffs.' },
-  { q: 'How accurate is the AI classification?',   a: 'Average classification accuracy of 94.2% across our benchmark dataset of 500,000 real-world GitHub issues.' },
-  { q: 'How long does it take to set up?',         a: 'Under 60 seconds. Install the GitHub App, select your repositories, and GHIC starts processing immediately.' },
-  { q: 'Can I use GHIC with private repositories?',a: 'Yes. All data is encrypted in transit and at rest. Private repositories are fully supported.' },
-  { q: 'What happens if the AI makes a wrong prediction?', a: 'Every prediction includes a confidence score. You can override any decision, and GHIC learns from corrections.' },
-  { q: 'Is there an API for custom integrations?', a: 'Yes. Full REST API with OpenAPI spec, webhook events, and TypeScript SDK available.' },
-  { q: "What's your SLA for enterprise customers?", a: 'Enterprise plans include 99.9% uptime SLA with dedicated support and custom escalation paths.' },
+  { q: 'Does GHIC read my code?',                  a: 'By default, no — GHIC reads issue titles, descriptions, labels, and comments only. Optional repository analysis can be switched on per installation; when it is, credential files are skipped and token-shaped values are redacted before anything is stored.' },
+  { q: 'How accurate is the AI classification?',   a: 'On a held-out test set of 1,177 issues, the classifier reaches 82% precision at 54% recall. In plain terms: when it flags something as an actionable bug it is right about four times in five, and it catches roughly half of them. It is a ranking aid, not a replacement for triage — the full evaluation method and numbers are published in the model card.' },
+  { q: 'How long does it take to set up?',         a: 'Under 60 seconds. Install the GitHub App, select your repositories, and GHIC starts processing newly opened issues immediately.' },
+  { q: 'Can I use GHIC with private repositories?',a: 'Yes. Traffic is encrypted in transit and our hosting and database providers encrypt at rest. Private repositories are fully supported.' },
+  { q: 'What happens if the AI makes a wrong prediction?', a: 'Every prediction carries a confidence score and states the evidence behind it, and GHIC never labels, closes, or assigns anything on its own — a maintainer decides. Corrections are not fed back automatically; the model is retrained deliberately, against a fixed evaluation, rather than drifting from individual overrides.' },
+  { q: 'Is there an API for custom integrations?', a: 'Yes — a REST API with an OpenAPI spec covering predictions, stats, and repository analytics. There is no published SDK yet; the API is plain HTTP and token-authenticated.' },
+  { q: "What's your SLA for enterprise customers?", a: 'Enterprise agreements can include an uptime commitment, dedicated support, and custom escalation paths. These are scoped and agreed with you in writing rather than fixed in advance.' },
 ];
 
 export function FAQ() {
