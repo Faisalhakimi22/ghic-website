@@ -1,0 +1,553 @@
+# Build the Official GHIC Website (Production SaaS)
+
+You are a Principal Product Designer, Creative Director, UX Architect, and Senior Frontend Engineer.
+
+Your task is to design and build the official website for GHIC.
+
+GHIC is NOT an AI demo.
+
+It is a premium AI-powered Developer Intelligence Platform.
+
+The website should feel like it belongs alongside:
+
+• OpenAI
+• GitHub
+• Vercel
+• Stripe
+• Microsoft
+• Linear
+• Notion
+• Supabase
+
+Everything must feel premium.
+
+No templates.
+
+No Bootstrap.
+
+No generic SaaS hero.
+
+No stock illustrations.
+
+No copied layouts.
+
+Every section should look intentionally designed.
+
+The website should communicate trust, intelligence, innovation, and engineering excellence.
+
+----------------------------------------------------
+
+# Product
+
+GHIC
+
+GitHub Issue Intelligence
+
+Tagline
+
+Engineering Intelligence for Modern Software Teams.
+
+Mission
+
+Transform every GitHub issue into actionable engineering intelligence using AI.
+
+----------------------------------------------------
+
+# Tech Stack
+
+Next.js 15
+
+React 19
+
+TypeScript
+
+Tailwind CSS
+
+Framer Motion
+
+GSAP (only where appropriate)
+
+Three.js (subtle premium effects only)
+
+Shadcn UI
+
+Lucide Icons
+
+MDX
+
+Vercel Analytics
+
+Responsive
+
+SEO optimized
+
+Accessibility AA
+
+----------------------------------------------------
+
+# Design Language
+
+Minimal
+
+Elegant
+
+Technical
+
+Premium
+
+Futuristic
+
+Developer-first
+
+Lots of whitespace
+
+Soft borders
+
+Rounded corners
+
+Glass effects only where meaningful
+
+Subtle gradients
+
+Micro animations
+
+Beautiful typography
+
+Inter
+
+IBM Plex Mono
+
+----------------------------------------------------
+
+# Inspiration
+
+OpenAI
+
+Linear
+
+Stripe
+
+GitHub
+
+Apple
+
+Microsoft
+
+Anthropic
+
+Vercel
+
+Nothing should resemble a ThemeForest template.
+
+----------------------------------------------------
+
+# Color Palette
+
+Primary
+
+Deep Black
+
+Pure White
+
+Slate Grays
+
+Accent
+
+Electric Blue
+
+Use color sparingly.
+
+----------------------------------------------------
+
+# Hero Section
+
+Huge cinematic headline.
+
+Example
+
+Engineering Intelligence,
+Powered by AI.
+
+Subheadline
+
+GHIC automatically classifies, prioritizes, explains, and manages GitHub issues so engineering teams can focus on building software—not triaging tickets.
+
+Primary CTA
+
+Install on GitHub
+
+Secondary CTA
+
+View Live Demo
+
+Background
+
+A living AI network visualization.
+
+Particles.
+
+Graph connections.
+
+Floating issue nodes.
+
+Animated intelligently.
+
+No distracting motion.
+
+----------------------------------------------------
+
+# Live Product Demo
+
+Interactive.
+
+Looks real.
+
+Not a video.
+
+A GitHub issue arrives.
+
+↓
+
+AI analyzes.
+
+↓
+
+Confidence updates.
+
+↓
+
+Duplicate search.
+
+↓
+
+Priority prediction.
+
+↓
+
+Labels suggested.
+
+↓
+
+Dashboard updates live.
+
+Users should feel they are using the product.
+
+----------------------------------------------------
+
+# Features
+
+Beautiful cards.
+
+AI Issue Classification
+
+Priority Prediction
+
+Duplicate Detection
+
+Smart Labels
+
+Engineering Analytics
+
+Explainable AI
+
+Repository Insights
+
+Real-time Webhooks
+
+Developer Dashboard
+
+GitHub App
+
+----------------------------------------------------
+
+# AI Intelligence Section
+
+Large visualization.
+
+Show
+
+Issue
+
+↓
+
+Understanding
+
+↓
+
+Reasoning
+
+↓
+
+Prediction
+
+↓
+
+Automation
+
+↓
+
+Engineering Knowledge
+
+Animated.
+
+----------------------------------------------------
+
+# Dashboard Showcase
+
+Full-width mock dashboard.
+
+Professional.
+
+Dark mode.
+
+Charts.
+
+Repository analytics.
+
+Recent predictions.
+
+Heatmaps.
+
+Confidence graphs.
+
+Looks like a real SaaS product.
+
+----------------------------------------------------
+
+# Enterprise Section
+
+Large cards.
+
+GitHub
+
+Slack
+
+Microsoft Teams
+
+Jira
+
+Azure DevOps
+
+GitLab
+
+Linear
+
+Coming Soon
+
+----------------------------------------------------
+
+# Security
+
+SOC2 Ready
+
+Private Repositories
+
+GitHub App Security
+
+Encrypted Secrets
+
+Role-based Access
+
+Privacy-first
+
+----------------------------------------------------
+
+# Developer Experience
+
+REST API
+
+Webhooks
+
+SDK
+
+CLI
+
+OpenAPI
+
+GitHub Marketplace
+
+----------------------------------------------------
+
+# Pricing
+
+Starter
+
+Pro
+
+Enterprise
+
+Beautiful pricing cards.
+
+----------------------------------------------------
+
+# Testimonials
+
+Use realistic placeholder testimonials from engineering teams.
+
+Do NOT use Lorem Ipsum.
+
+----------------------------------------------------
+
+# FAQ
+
+Professional.
+
+Collapsible.
+
+----------------------------------------------------
+
+# Footer
+
+GitHub
+
+Documentation
+
+API
+
+Blog
+
+Privacy
+
+Terms
+
+Contact
+
+Marketplace
+
+----------------------------------------------------
+
+# Animations
+
+Every section should feel alive.
+
+Parallax
+
+Reveal on scroll
+
+Hover physics
+
+Smooth transitions
+
+Micro interactions
+
+Never excessive.
+
+Maintain 60 FPS.
+
+----------------------------------------------------
+
+# Performance
+
+Lighthouse
+
+95+
+
+SEO
+
+100
+
+Accessibility
+
+100
+
+Best Practices
+
+100
+
+----------------------------------------------------
+
+# SEO
+
+Structured Data
+
+OpenGraph
+
+Twitter Cards
+
+Canonical URLs
+
+Metadata
+
+Sitemap
+
+Robots
+
+----------------------------------------------------
+
+# Responsive
+
+Perfect on
+
+Desktop
+
+Laptop
+
+Tablet
+
+Mobile
+
+----------------------------------------------------
+
+# Dark Mode
+
+Automatic
+
+System preference
+
+Perfect contrast
+
+----------------------------------------------------
+
+# Components
+
+Navbar
+
+Hero
+
+Animated Background
+
+Feature Cards
+
+Interactive Demo
+
+Dashboard Showcase
+
+Integrations
+
+Pricing
+
+Testimonials
+
+FAQ
+
+Footer
+
+----------------------------------------------------
+
+# Copywriting
+
+Write world-class marketing copy.
+
+Short.
+
+Confident.
+
+Technical.
+
+Never hype.
+
+Never buzzwords.
+
+Every sentence should communicate value.
+
+----------------------------------------------------
+
+# Quality Standard
+
+The finished website should be indistinguishable from a modern product website built by OpenAI, Vercel, GitHub, or Stripe.
+
+It should immediately communicate that GHIC is a serious AI developer platform—not a university project.
+
+Do not stop after creating a landing page.
+
+Deliver a complete production-ready marketing website with polished interactions, reusable components, responsive layouts, and clean architecture.

@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "GHIC — GitHub Issue Intelligence"
+description = "The official marketing website for GHIC, a premium AI-powered Developer Intelligence Platform that transforms GitHub issues into actionable engineering intelligence. Full cinematic landing page with animated hero, interactive demo, dashboard showcase, pricing, testimonials, and more."
+version = "1.0.0"
+id = "artifacts/ghic"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21709
+
+[services.development]
+run = "pnpm --filter @workspace/ghic run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ghic", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/ghic/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21709"
+BASE_PATH = "/"
