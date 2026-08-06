@@ -1,6 +1,6 @@
-import { Link } from 'wouter';
 import { ArrowRight, BookOpen, Github, Terminal, Webhook } from 'lucide-react';
 import { PageShell } from '@/components/PageShell';
+import { GITHUB_APP_INSTALL_URL, GITHUB_REPO_URL } from '@/lib/links';
 
 const steps = [
   {
@@ -81,7 +81,7 @@ export default function Docs() {
                 does not ship.
               </p>
               <a
-                href="https://github.com/Faisalhakimi22/github-issue-classifier"
+                href={GITHUB_REPO_URL}
                 target="_blank"
                 rel="noreferrer noopener"
                 className="inline-flex items-center gap-2 bg-white text-black px-5 py-3 text-sm font-bold uppercase tracking-wider hover:bg-transparent hover:text-white transition-colors"
@@ -95,17 +95,19 @@ export default function Docs() {
         </div>
 
         <div className="mt-12 text-center">
-          <Link
-            href="/signup"
-            className="inline-flex items-center gap-2 bg-black text-white px-6 py-3.5 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors"
+          <a
+            href={GITHUB_APP_INSTALL_URL}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex items-center gap-2 bg-black text-white px-6 py-3.5 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors no-underline"
             style={{
               border: '3px solid #000',
               boxShadow: '4px 4px 0 #000',
               fontFamily: "'Archivo Black', sans-serif",
             }}
           >
-            Get started free <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
-          </Link>
+            Install free <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
+          </a>
         </div>
       </div>
     </PageShell>

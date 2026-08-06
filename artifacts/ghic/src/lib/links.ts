@@ -34,3 +34,30 @@ export const GITHUB_REPO_URL = 'https://github.com/Faisalhakimi22/github-issue-c
 /** Support / sales contact. */
 export const CONTACT_EMAIL = 'faisalh5556@gmail.com';
 export const CONTACT_MAILTO = `mailto:${CONTACT_EMAIL}`;
+
+/**
+ * A plan enquiry with the tier and price already in the subject and body.
+ *
+ * There is no checkout on this site, so a paid tier's button opens an
+ * email. Prefilling it means the enquiry arrives saying which plan and
+ * which advertised price the person clicked — otherwise every one of these
+ * is a blank message you have to reply to just to find out what they want,
+ * and the advertised price is exactly the thing to have in writing.
+ */
+export function planEnquiryMailto(plan: string, price: string, period = ''): string {
+  const subject = `GHIC ${plan} plan enquiry`;
+  const body = [
+    `Hi,`,
+    ``,
+    `I'd like to get started with the GHIC ${plan} plan${
+      price && price !== 'Custom' ? ` (${price}${period})` : ''
+    }.`,
+    ``,
+    `GitHub org / user:`,
+    `Repositories to cover:`,
+    `Approximate issues per month:`,
+    ``,
+    `Thanks,`,
+  ].join('\n');
+  return `${CONTACT_MAILTO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}

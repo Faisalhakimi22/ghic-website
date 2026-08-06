@@ -79,13 +79,18 @@ export default function Terms() {
 
         <Section heading="Billing">
           <p>
-            GHIC is currently free to use and no payment is collected. Plan tiers shown on the
-            pricing page describe intended future packaging and are not yet available for
-            purchase.
+            The Starter plan is free and requires no payment or card details. Installing the
+            GitHub App on a repository costs nothing.
           </p>
           <p>
-            If paid plans are introduced, billing terms, cancellation, and refund conditions
-            will be published here and you will be given notice before any charge.
+            Paid plans (Pro and Enterprise) are arranged directly by email — there is no
+            checkout on this site and no payment is taken through it. Price, billing period,
+            and invoicing are agreed in writing before any charge is made, and you will never
+            be charged automatically as a result of installing the app or creating an account.
+          </p>
+          <p>
+            You can stop a paid plan at any time by telling us; the arrangement ends at the end
+            of the period already paid for. Refunds outside that are handled case by case.
           </p>
         </Section>
 

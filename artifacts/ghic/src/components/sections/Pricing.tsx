@@ -1,9 +1,19 @@
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
-import { CONTACT_MAILTO, GITHUB_APP_INSTALL_URL } from '@/lib/links';
+import { GITHUB_APP_INSTALL_URL, planEnquiryMailto } from '@/lib/links';
 
 const GRAY = '#C9C9C9';
 
+/**
+ * `action` decides where the button goes, and it has to match the price
+ * above it. Starter is genuinely free and self-serve, so it installs
+ * straight away. Pro and Enterprise cost money and there is no checkout on
+ * this site, so they open a request instead — a paid tier whose button
+ * silently performs the free install is the inconsistency this fixes.
+ *
+ * `note` states how the paid tiers are actually purchased, so nobody
+ * presses the button expecting a card form.
+ */
 const plans = [
   {
     name: 'Starter',
@@ -11,7 +21,9 @@ const plans = [
     period: '',
     desc: 'Perfect for open source maintainers and solo engineers.',
     features: ['1 repository', '500 issues/month', 'AI Classification', 'Basic Dashboard', 'Community support'],
-    cta: 'Get Started Free',
+    cta: 'Install Free',
+    action: 'install' as const,
+    note: 'Installs on GitHub instantly. No card required.',
     black: false,
     popular: false,
   },
@@ -21,7 +33,9 @@ const plans = [
     period: '/mo',
     desc: 'For professional engineering teams shipping fast.',
     features: ['10 repositories', '10,000 issues/month', 'All AI features', 'Priority Prediction', 'Duplicate Detection', 'Analytics Dashboard', 'Email support'],
-    cta: 'Start Free Trial',
+    cta: 'Request Pro Access',
+    action: 'contact' as const,
+    note: 'Billing is arranged by email — we reply within one business day.',
     black: true,
     popular: true,
   },
@@ -32,6 +46,8 @@ const plans = [
     desc: 'For organizations with custom requirements and scale.',
     features: ['Unlimited repositories', 'Unlimited issues', 'Custom AI models', 'SSO & RBAC', 'SLA guarantee', 'Dedicated support'],
     cta: 'Contact Sales',
+    action: 'contact' as const,
+    note: 'Tell us your scale and requirements and we will scope it.',
     black: false,
     popular: false,
   },
@@ -117,15 +133,15 @@ export function Pricing() {
                 ))}
               </ul>
 
-              {/* Enterprise goes to email; the self-serve tiers go to the
-                  GitHub App install, since installing is what actually
-                  starts the product. There is no checkout to send anyone
-                  to — see the Billing section of /terms. */}
               <a
-                href={plan.name === 'Enterprise' ? CONTACT_MAILTO : GITHUB_APP_INSTALL_URL}
-                {...(plan.name === 'Enterprise'
-                  ? {}
-                  : { target: '_blank', rel: 'noreferrer noopener' })}
+                href={
+                  plan.action === 'install'
+                    ? GITHUB_APP_INSTALL_URL
+                    : planEnquiryMailto(plan.name, plan.price, plan.period)
+                }
+                {...(plan.action === 'install'
+                  ? { target: '_blank', rel: 'noreferrer noopener' }
+                  : {})}
                 data-testid={`pricing-cta-${plan.name.toLowerCase()}`}
                 className="w-full py-4 text-sm font-bold uppercase tracking-widest transition-all wobble card-t block text-center no-underline"
                 style={{
@@ -138,6 +154,13 @@ export function Pricing() {
               >
                 {plan.cta}
               </a>
+
+              <p
+                className="mt-3 text-xs leading-relaxed text-center"
+                style={{ color: plan.black ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)' }}
+              >
+                {plan.note}
+              </p>
             </motion.div>
           ))}
         </div>
