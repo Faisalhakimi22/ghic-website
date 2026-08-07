@@ -97,8 +97,6 @@ export default function Docs() {
         <div className="mt-12 text-center">
           <a
             href={GITHUB_APP_INSTALL_URL}
-            target="_blank"
-            rel="noreferrer noopener"
             className="inline-flex items-center gap-2 bg-black text-white px-6 py-3.5 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors no-underline"
             style={{
               border: '3px solid #000',

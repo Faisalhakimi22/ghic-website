@@ -142,8 +142,6 @@ export function Navbar() {
                   over your code. */}
               <a
                 href={GITHUB_APP_INSTALL_URL}
-                target="_blank"
-                rel="noreferrer noopener"
                 data-testid="nav-install"
                 className="hidden md:flex items-center gap-2 bg-black text-white px-5 py-2.5 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors no-underline"
                 style={{
@@ -216,8 +214,6 @@ export function Navbar() {
               </Link>
               <a
                 href={GITHUB_APP_INSTALL_URL}
-                target="_blank"
-                rel="noreferrer noopener"
                 className="flex items-center justify-center gap-2 bg-black text-white px-5 py-3 text-sm font-bold uppercase tracking-wider no-underline"
                 style={{ border: '3px solid #000' }}
               >

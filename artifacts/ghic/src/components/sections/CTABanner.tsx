@@ -54,8 +54,6 @@ export function CTABanner() {
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <a
             href={GITHUB_APP_INSTALL_URL}
-            target="_blank"
-            rel="noreferrer noopener"
             data-testid="cta-banner-install"
             className="inline-flex items-center justify-center gap-3 bg-white text-black px-8 py-5 text-base font-bold uppercase tracking-widest card-t wobble no-underline"
             style={{ fontFamily: "'Archivo Black', sans-serif", border: '3px solid #fff', boxShadow: `6px 6px 0 ${GRAY}` }}

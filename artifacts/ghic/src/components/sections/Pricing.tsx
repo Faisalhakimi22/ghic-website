@@ -139,9 +139,6 @@ export function Pricing() {
                     ? GITHUB_APP_INSTALL_URL
                     : planEnquiryMailto(plan.name, plan.price, plan.period)
                 }
-                {...(plan.action === 'install'
-                  ? { target: '_blank', rel: 'noreferrer noopener' }
-                  : {})}
                 data-testid={`pricing-cta-${plan.name.toLowerCase()}`}
                 className="w-full py-4 text-sm font-bold uppercase tracking-widest transition-all wobble card-t block text-center no-underline"
                 style={{

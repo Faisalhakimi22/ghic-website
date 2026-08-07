@@ -177,8 +177,6 @@ export function Hero() {
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <a href={GITHUB_APP_INSTALL_URL}
-                target="_blank"
-                rel="noreferrer noopener"
                 data-testid="hero-install"
                 className="display hard bg-black text-white px-7 py-4 text-base md:text-lg shadow-hard-gray inline-flex items-center gap-3 card-t wobble no-underline"
               >
