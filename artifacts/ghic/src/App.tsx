@@ -10,6 +10,7 @@ import PricingPage from '@/pages/PricingPage';
 import Docs from '@/pages/Docs';
 import Privacy from '@/pages/Privacy';
 import Terms from '@/pages/Terms';
+import GitHubSetup from '@/pages/GitHubSetup';
 import { AuthProvider } from '@/lib/auth';
 
 const queryClient = new QueryClient();
@@ -46,6 +47,8 @@ function Router() {
         <Route path="/docs" component={Docs} />
         <Route path="/privacy" component={Privacy} />
         <Route path="/terms" component={Terms} />
+        <Route path="/github/setup" component={GitHubSetup} />
+        <Route path="/setup" component={GitHubSetup} />
         <Route component={NotFound} />
       </Switch>
     </>
