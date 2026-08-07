@@ -81,4 +81,4 @@ export function githubProvider(): GithubAuthProvider {
 
 /** Where a signed-in user is sent. Overridable per environment. */
 export const DASHBOARD_URL =
-  import.meta.env.VITE_DASHBOARD_URL || 'https://ghic-dashboard.vercel.app';
+  import.meta.env.VITE_DASHBOARD_URL || 'https://ghic-hub.vercel.app';
