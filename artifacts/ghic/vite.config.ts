@@ -5,29 +5,43 @@ import { defineConfig } from 'vite';
 
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 
-const rawPort = process.env.PORT;
+// PORT only matters when Vite actually runs a server (dev/preview). A static
+// `vite build` has no server, and CI hosts such as Vercel do not set PORT
+// during the build step, so requiring it unconditionally breaks the build.
+//
+// artifacts/ghic/vercel.json supplies PORT and BASE_PATH via build.env, but
+// Vercel reads vercel.json from the project's root directory and this project
+// builds from the repository root -- so that file is never loaded and the
+// values never arrive. The same fix already landed in the hub for the same
+// reason.
+function resolvePort(required: boolean): number | undefined {
+  const rawPort = process.env.PORT;
 
-if (!rawPort) {
-  throw new Error(
-    'PORT environment variable is required but was not provided.',
-  );
+  if (!rawPort) {
+    if (required) {
+      throw new Error(
+        'PORT environment variable is required but was not provided.',
+      );
+    }
+    return undefined;
+  }
+
+  const port = Number(rawPort);
+
+  if (Number.isNaN(port) || port <= 0) {
+    throw new Error(`Invalid PORT value: "${rawPort}"`);
+  }
+
+  return port;
 }
 
-const port = Number(rawPort);
+export default defineConfig(async ({ command }) => {
+  const port = resolvePort(command === 'serve');
+  // Serving from the domain root is the only deployment this site has; a
+  // missing BASE_PATH is not a reason to fail a build.
+  const basePath = process.env.BASE_PATH ?? '/';
 
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
-}
-
-const basePath = process.env.BASE_PATH;
-
-if (!basePath) {
-  throw new Error(
-    'BASE_PATH environment variable is required but was not provided.',
-  );
-}
-
-export default defineConfig({
+  return {
   base: basePath,
   plugins: [
     react(),
@@ -78,4 +92,5 @@ export default defineConfig({
     host: '0.0.0.0',
     allowedHosts: true,
   },
+  };
 });
