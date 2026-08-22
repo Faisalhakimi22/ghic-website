@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
-import { CONTACT_MAILTO, GITHUB_APP_INSTALL_URL } from '@/lib/links';
+import { CONTACT_MAILTO } from '@/lib/links';
+import { DASHBOARD_URL } from '@/lib/firebase';
 
 const GRAY = '#C9C9C9';
 
@@ -53,13 +54,13 @@ export function CTABanner() {
 
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <a
-            href={GITHUB_APP_INSTALL_URL}
+            href={DASHBOARD_URL}
             data-testid="cta-banner-install"
             className="inline-flex items-center justify-center gap-3 bg-white text-black px-8 py-5 text-base font-bold uppercase tracking-widest card-t wobble no-underline"
             style={{ fontFamily: "'Archivo Black', sans-serif", border: '3px solid #fff', boxShadow: `6px 6px 0 ${GRAY}` }}
           >
             <SiGithub className="w-5 h-5" />
-            INSTALL ON GITHUB <ArrowRight className="w-5 h-5" strokeWidth={3} />
+            GET STARTED <ArrowRight className="w-5 h-5" strokeWidth={3} />
           </a>
           <a
             href={CONTACT_MAILTO}

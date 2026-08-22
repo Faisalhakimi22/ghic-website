@@ -13,7 +13,18 @@
  * They are separate consents on purpose, and wiring "Install" at the login
  * page would be wrong: signing in grants GHIC nothing over your code, and
  * a user who signs in but never installs has a working account and an
- * inert product. Install is the primary action on this site.
+ * inert product.
+ *
+ * Install was the primary action here for exactly that reason, and it made
+ * the product harder to start. Installing first produces an installation
+ * with no GHIC account to attach it to, so the callback cannot link it: the
+ * visitor signs in anyway, then completes the connection through a recovery
+ * screen built for people who arrived from GitHub's own App page. Seven
+ * steps where signing in first takes four.
+ *
+ * So "Get Started" leads to the hub, and installing on GitHub stays one
+ * click away for anyone who already knows what they want. The consent
+ * distinction above is unchanged -- only which door is the obvious one.
  */
 
 /** GitHub App slug — verified live at github.com/apps/<slug>. */

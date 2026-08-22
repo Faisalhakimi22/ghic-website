@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ArrowRight, Zap, GitPullRequest, CheckCircle2, Tag, AlertCircle, BarChart3, Shield, Clock } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import { GITHUB_APP_INSTALL_URL } from '@/lib/links';
+import { DASHBOARD_URL } from '@/lib/firebase';
 
 const GRAY = '#C9C9C9';
 
@@ -176,17 +177,25 @@ export function Hero() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a href={GITHUB_APP_INSTALL_URL}
+              <a href={DASHBOARD_URL}
                 data-testid="hero-install"
                 className="display hard bg-black text-white px-7 py-4 text-base md:text-lg shadow-hard-gray inline-flex items-center gap-3 card-t wobble no-underline"
               >
-                <SiGithub className="w-5 h-5" />
-                INSTALL FREE <ArrowRight className="w-5 h-5" strokeWidth={3} />
+                GET STARTED FREE <ArrowRight className="w-5 h-5" strokeWidth={3} />
               </a>
               <a href="#demo"
                 className="display hard bg-white text-black px-6 py-4 text-base md:text-lg shadow-hard-sm card-t wobble inline-flex items-center gap-3"
               >
                 SEE LIVE DEMO
+              </a>
+              {/* Kept for people who already know what they want. It works:
+                  the hub recognises an installation that arrived without a
+                  state and offers to link it. */}
+              <a href={GITHUB_APP_INSTALL_URL}
+                data-testid="hero-install-direct"
+                className="text-sm font-bold uppercase tracking-widest text-black/60 hover:text-black inline-flex items-center gap-2 no-underline"
+              >
+                <SiGithub className="w-4 h-4" /> Install on GitHub
               </a>
             </div>
 

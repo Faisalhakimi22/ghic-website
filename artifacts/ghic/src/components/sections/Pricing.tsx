@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
-import { GITHUB_APP_INSTALL_URL, planEnquiryMailto } from '@/lib/links';
+import { planEnquiryMailto } from '@/lib/links';
+import { DASHBOARD_URL } from '@/lib/firebase';
 
 const GRAY = '#C9C9C9';
 
@@ -136,7 +137,7 @@ export function Pricing() {
               <a
                 href={
                   plan.action === 'install'
-                    ? GITHUB_APP_INSTALL_URL
+                    ? DASHBOARD_URL
                     : planEnquiryMailto(plan.name, plan.price, plan.period)
                 }
                 data-testid={`pricing-cta-${plan.name.toLowerCase()}`}

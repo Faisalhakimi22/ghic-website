@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { ArrowRight, LayoutDashboard, LogOut, Menu, X, Zap } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { DASHBOARD_URL } from '@/lib/firebase';
-import { GITHUB_APP_INSTALL_URL } from '@/lib/links';
 import { useAuth } from '@/lib/auth';
 
 /**
@@ -137,11 +136,12 @@ export function Navbar() {
               >
                 Sign in
               </Link>
-              {/* Install, not sign-up: this is the action that actually
-                  puts GHIC on a repository. Signing in grants GHIC nothing
-                  over your code. */}
+              {/* The hub, not GitHub. Installing first leaves an
+                  installation with no account to attach it to, so the
+                  visitor ends up signing in anyway and finishing through a
+                  recovery screen. */}
               <a
-                href={GITHUB_APP_INSTALL_URL}
+                href={DASHBOARD_URL}
                 data-testid="nav-install"
                 className="hidden md:flex items-center gap-2 bg-black text-white px-5 py-2.5 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors no-underline"
                 style={{
@@ -150,7 +150,7 @@ export function Navbar() {
                   fontFamily: "'Archivo Black', sans-serif",
                 }}
               >
-                Install Free <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
+                Get Started <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
               </a>
             </>
           )}
@@ -213,11 +213,11 @@ export function Navbar() {
                 Sign in
               </Link>
               <a
-                href={GITHUB_APP_INSTALL_URL}
+                href={DASHBOARD_URL}
                 className="flex items-center justify-center gap-2 bg-black text-white px-5 py-3 text-sm font-bold uppercase tracking-wider no-underline"
                 style={{ border: '3px solid #000' }}
               >
-                Install Free <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
+                Get Started <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
               </a>
             </>
           )}
