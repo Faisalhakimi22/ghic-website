@@ -12,6 +12,7 @@ import Privacy from '@/pages/Privacy';
 import Terms from '@/pages/Terms';
 import GitHubSetup from '@/pages/GitHubSetup';
 import { AuthProvider } from '@/lib/auth';
+import { HubConnectionProvider } from '@/lib/hub-connection';
 
 const queryClient = new QueryClient();
 
@@ -64,12 +65,14 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <TooltipProvider>
-          <WouterRouter base={import.meta.env.BASE_URL?.replace(/\/$/, '') || ''}>
-            <Router />
-          </WouterRouter>
-          <Toaster />
-        </TooltipProvider>
+        <HubConnectionProvider>
+          <TooltipProvider>
+            <WouterRouter base={import.meta.env.BASE_URL?.replace(/\/$/, '') || ''}>
+              <Router />
+            </WouterRouter>
+            <Toaster />
+          </TooltipProvider>
+        </HubConnectionProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

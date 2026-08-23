@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, Zap, GitPullRequest, CheckCircle2, Tag, AlertCircle, BarChart3, Shield, Clock } from 'lucide-react';
+import { ArrowRight, Zap, GitPullRequest, CheckCircle2, Tag, AlertCircle, BarChart3, Shield, Clock, LayoutDashboard } from 'lucide-react';
 import { SiGithub } from 'react-icons/si';
 import { GITHUB_APP_INSTALL_URL } from '@/lib/links';
 import { DASHBOARD_URL } from '@/lib/firebase';
+import { useHubConnection } from '@/lib/hub-connection';
 
 const GRAY = '#C9C9C9';
 
@@ -116,6 +117,8 @@ function IssueCard() {
 }
 
 export function Hero() {
+  const { connected } = useHubConnection();
+
   return (
     <section
       className="bg-white overflow-x-hidden"
@@ -181,7 +184,11 @@ export function Hero() {
                 data-testid="hero-install"
                 className="display hard bg-black text-white px-7 py-4 text-base md:text-lg shadow-hard-gray inline-flex items-center gap-3 card-t wobble no-underline"
               >
-                GET STARTED FREE <ArrowRight className="w-5 h-5" strokeWidth={3} />
+                {connected ? (
+                  <><LayoutDashboard className="w-5 h-5" strokeWidth={3} /> DASHBOARD</>
+                ) : (
+                  <>GET STARTED FREE <ArrowRight className="w-5 h-5" strokeWidth={3} /></>
+                )}
               </a>
               <a href="#demo"
                 className="display hard bg-white text-black px-6 py-4 text-base md:text-lg shadow-hard-sm card-t wobble inline-flex items-center gap-3"

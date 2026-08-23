@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { planEnquiryMailto } from '@/lib/links';
 import { DASHBOARD_URL } from '@/lib/firebase';
+import { useHubConnection } from '@/lib/hub-connection';
 
 const GRAY = '#C9C9C9';
 
@@ -61,6 +62,8 @@ const HalfCircle = ({ className = '', color = '#000' }) => (
 );
 
 export function Pricing() {
+  const { connected } = useHubConnection();
+
   return (
     <section id="pricing" className="bg-white py-16 md:py-20" style={{ borderTop: '3px solid #000', fontFamily: "'Space Grotesk', sans-serif" }}>
       <div className="max-w-7xl mx-auto px-5 md:px-8">
@@ -150,7 +153,7 @@ export function Pricing() {
                   color: plan.black ? '#000' : '#fff',
                 }}
               >
-                {plan.cta}
+                {plan.action === 'install' && connected ? 'Dashboard' : plan.cta}
               </a>
 
               <p

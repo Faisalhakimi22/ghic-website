@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, LayoutDashboard, LogOut, Menu, X, Zap } from 'lucide-react';
+import { ArrowRight, LayoutDashboard, Menu, X, Zap } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { DASHBOARD_URL } from '@/lib/firebase';
-import { useAuth } from '@/lib/auth';
+import { useHubConnection } from '@/lib/hub-connection';
 
 /**
  * Section links live on the landing page, so they behave differently
@@ -25,7 +25,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [, setScrolled] = useState(false);
   const [location] = useLocation();
-  const { user, loading, signOut } = useAuth();
+  const hub = useHubConnection();
 
   const onHome = location === '/';
 
@@ -89,11 +89,11 @@ export function Navbar() {
         </nav>
 
         {/* CTA — nothing auth-dependent renders until Firebase has
-            answered, so a signed-in user never sees "Sign in" flash first. */}
+            answered and the Hub connection check has settled. */}
         <div className="flex items-center gap-3">
-          {loading ? (
+          {hub.status === 'checking' ? (
             <div className="hidden md:block w-32 h-9" aria-hidden />
-          ) : user ? (
+          ) : hub.connected ? (
             <>
               <a
                 href={DASHBOARD_URL}
@@ -108,34 +108,9 @@ export function Navbar() {
                 <LayoutDashboard className="w-4 h-4" strokeWidth={2.5} />
                 Dashboard
               </a>
-              <button
-                onClick={() => void signOut()}
-                title={`Sign out ${user.displayName || user.email || ''}`}
-                data-testid="nav-signout"
-                className="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-black/60 hover:text-black transition-colors"
-              >
-                {user.photoURL ? (
-                  <img
-                    src={user.photoURL}
-                    alt=""
-                    className="w-7 h-7 object-cover"
-                    style={{ border: '2px solid #000' }}
-                  />
-                ) : (
-                  <LogOut className="w-4 h-4" strokeWidth={2.5} />
-                )}
-                Sign out
-              </button>
             </>
           ) : (
             <>
-              <Link
-                href="/login"
-                data-testid="nav-signin"
-                className="hidden md:block text-xs font-bold uppercase tracking-widest text-black/60 hover:text-black transition-colors no-underline"
-              >
-                Sign in
-              </Link>
               {/* The hub, not GitHub. Installing first leaves an
                   installation with no account to attach it to, so the
                   visitor ends up signing in anyway and finishing through a
@@ -187,7 +162,7 @@ export function Navbar() {
             </Link>
           ))}
 
-          {user ? (
+          {hub.connected ? (
             <>
               <a
                 href={DASHBOARD_URL}
@@ -197,21 +172,9 @@ export function Navbar() {
                 <LayoutDashboard className="w-4 h-4" strokeWidth={2.5} />
                 Dashboard
               </a>
-              <button
-                onClick={() => void signOut()}
-                className="w-full text-sm font-bold uppercase tracking-widest text-black/60"
-              >
-                Sign out
-              </button>
             </>
           ) : (
             <>
-              <Link
-                href="/login"
-                className="block text-sm font-bold uppercase tracking-widest text-black/70 no-underline"
-              >
-                Sign in
-              </Link>
               <a
                 href={DASHBOARD_URL}
                 className="flex items-center justify-center gap-2 bg-black text-white px-5 py-3 text-sm font-bold uppercase tracking-wider no-underline"
