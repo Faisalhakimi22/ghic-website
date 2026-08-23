@@ -10,6 +10,7 @@ import {
 import { DASHBOARD_URL } from './firebase';
 
 const MESSAGE_TYPE = 'ghic:hub-connection';
+const REQUEST_TYPE = 'ghic:hub-connection-request';
 const INITIAL_CHECK_TIMEOUT_MS = 5_000;
 
 type HubConnectionStatus = 'checking' | 'connected' | 'disconnected';
@@ -49,6 +50,7 @@ export function HubConnectionProvider({ children }: { children: ReactNode }) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [status, setStatus] = useState<HubConnectionStatus>('checking');
   const [authenticated, setAuthenticated] = useState(false);
+  const [bridgeSrc, setBridgeSrc] = useState<string | undefined>();
   const hubOrigin = useMemo(() => new URL(DASHBOARD_URL).origin, []);
   const bridgeUrl = useMemo(() => {
     const url = new URL('/marketing-session', DASHBOARD_URL);
@@ -60,7 +62,6 @@ export function HubConnectionProvider({ children }: { children: ReactNode }) {
     const onMessage = (event: MessageEvent<unknown>) => {
       if (
         event.origin !== hubOrigin ||
-        event.source !== iframeRef.current?.contentWindow ||
         !isConnectionMessage(event.data)
       ) {
         return;
@@ -71,6 +72,7 @@ export function HubConnectionProvider({ children }: { children: ReactNode }) {
     };
 
     window.addEventListener('message', onMessage);
+    setBridgeSrc(bridgeUrl);
     const timeout = window.setTimeout(() => {
       setStatus((current) =>
         current === 'checking' ? 'disconnected' : current,
@@ -81,7 +83,7 @@ export function HubConnectionProvider({ children }: { children: ReactNode }) {
       window.removeEventListener('message', onMessage);
       window.clearTimeout(timeout);
     };
-  }, [hubOrigin]);
+  }, [bridgeUrl, hubOrigin]);
 
   const value = useMemo<HubConnectionContextValue>(
     () => ({
@@ -97,7 +99,13 @@ export function HubConnectionProvider({ children }: { children: ReactNode }) {
       {children}
       <iframe
         ref={iframeRef}
-        src={bridgeUrl}
+        src={bridgeSrc}
+        onLoad={() => {
+          iframeRef.current?.contentWindow?.postMessage(
+            { type: REQUEST_TYPE, version: 1 },
+            hubOrigin,
+          );
+        }}
         title="GHIC connection status"
         aria-hidden="true"
         tabIndex={-1}
