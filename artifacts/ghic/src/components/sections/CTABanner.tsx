@@ -20,7 +20,10 @@ const Triangle = ({ className = '', color = '#fff' }) => (
 );
 
 export function CTABanner() {
-  const { connected } = useHubConnection();
+  // Signed in, not necessarily installed. A visitor with an account but
+  // no GitHub App yet is still someone for whom "Get Started" is the
+  // wrong offer -- their next step is the hub, not another signup.
+  const { signedIn } = useHubConnection();
 
   return (
     <section className="bg-black text-white relative overflow-hidden" style={{ borderTop: '3px solid #000', fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -62,7 +65,7 @@ export function CTABanner() {
             className="inline-flex items-center justify-center gap-3 bg-white text-black px-8 py-5 text-base font-bold uppercase tracking-widest card-t wobble no-underline"
             style={{ fontFamily: "'Archivo Black', sans-serif", border: '3px solid #fff', boxShadow: `6px 6px 0 ${GRAY}` }}
           >
-            {connected ? (
+            {signedIn ? (
               <><LayoutDashboard className="w-5 h-5" /> DASHBOARD</>
             ) : (
               <><SiGithub className="w-5 h-5" /> GET STARTED <ArrowRight className="w-5 h-5" strokeWidth={3} /></>

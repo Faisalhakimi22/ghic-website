@@ -62,7 +62,10 @@ const HalfCircle = ({ className = '', color = '#000' }) => (
 );
 
 export function Pricing() {
-  const { connected } = useHubConnection();
+  // Signed in, not necessarily installed. A visitor with an account but
+  // no GitHub App yet is still someone for whom "Get Started" is the
+  // wrong offer -- their next step is the hub, not another signup.
+  const { signedIn } = useHubConnection();
 
   return (
     <section id="pricing" className="bg-white py-16 md:py-20" style={{ borderTop: '3px solid #000', fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -153,7 +156,7 @@ export function Pricing() {
                   color: plan.black ? '#000' : '#fff',
                 }}
               >
-                {plan.action === 'install' && connected ? 'Dashboard' : plan.cta}
+                {plan.action === 'install' && signedIn ? 'Dashboard' : plan.cta}
               </a>
 
               <p

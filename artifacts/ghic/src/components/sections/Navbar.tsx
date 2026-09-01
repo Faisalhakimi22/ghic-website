@@ -88,12 +88,14 @@ export function Navbar() {
           ))}
         </nav>
 
-        {/* CTA — nothing auth-dependent renders until Firebase has
-            answered and the Hub connection check has settled. */}
+        {/* CTA — nothing auth-dependent renders until the session state has
+            settled. A signed-in visitor settles immediately from the local
+            Firebase session; only a signed-out one waits on the Hub bridge,
+            and that wait is bounded. */}
         <div className="flex items-center gap-3">
-          {hub.status === 'checking' ? (
+          {hub.settling ? (
             <div className="hidden md:block w-32 h-9" aria-hidden />
-          ) : hub.connected ? (
+          ) : hub.signedIn ? (
             <>
               <a
                 href={DASHBOARD_URL}
@@ -162,7 +164,7 @@ export function Navbar() {
             </Link>
           ))}
 
-          {hub.connected ? (
+          {hub.signedIn ? (
             <>
               <a
                 href={DASHBOARD_URL}

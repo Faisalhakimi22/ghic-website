@@ -117,7 +117,10 @@ function IssueCard() {
 }
 
 export function Hero() {
-  const { connected } = useHubConnection();
+  // Signed in, not necessarily installed. A visitor with an account but
+  // no GitHub App yet is still someone for whom "Get Started" is the
+  // wrong offer -- their next step is the hub, not another signup.
+  const { signedIn } = useHubConnection();
 
   return (
     <section
@@ -184,7 +187,7 @@ export function Hero() {
                 data-testid="hero-install"
                 className="display hard bg-black text-white px-7 py-4 text-base md:text-lg shadow-hard-gray inline-flex items-center gap-3 card-t wobble no-underline"
               >
-                {connected ? (
+                {signedIn ? (
                   <><LayoutDashboard className="w-5 h-5" strokeWidth={3} /> DASHBOARD</>
                 ) : (
                   <>GET STARTED FREE <ArrowRight className="w-5 h-5" strokeWidth={3} /></>
