@@ -20,10 +20,7 @@ const Triangle = ({ className = '', color = '#fff' }) => (
 );
 
 export function CTABanner() {
-  // Signed in, not necessarily installed. A visitor with an account but
-  // no GitHub App yet is still someone for whom "Get Started" is the
-  // wrong offer -- their next step is the hub, not another signup.
-  const { signedIn } = useHubConnection();
+  const { connected, settling } = useHubConnection();
 
   return (
     <section className="bg-black text-white relative overflow-hidden" style={{ borderTop: '3px solid #000', fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -41,7 +38,7 @@ export function CTABanner() {
       <div className="max-w-4xl mx-auto px-5 md:px-8 py-20 md:py-28 text-center relative">
         <p className="text-xs font-bold uppercase tracking-[0.35em] mb-6 text-white/50 flex items-center justify-center gap-3">
           <span className="inline-block w-8 h-[2px] bg-white/30" />
-          Install in 60 seconds
+          Connect through GitHub
           <span className="inline-block w-8 h-[2px] bg-white/30" />
         </p>
 
@@ -55,7 +52,7 @@ export function CTABanner() {
         </h2>
 
         <p className="text-base font-semibold text-white/60 mb-10 max-w-xl mx-auto leading-relaxed">
-          No configuration required. Free forever for one repository. Every issue classified from the first minute.
+          Starter includes one repository and 50 issue analyses per day. Connect through GitHub and keep the final decision with your maintainers.
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -65,7 +62,9 @@ export function CTABanner() {
             className="inline-flex items-center justify-center gap-3 bg-white text-black px-8 py-5 text-base font-bold uppercase tracking-widest card-t wobble no-underline"
             style={{ fontFamily: "'Archivo Black', sans-serif", border: '3px solid #fff', boxShadow: `6px 6px 0 ${GRAY}` }}
           >
-            {signedIn ? (
+            {settling ? (
+              <>CHECKING GHIC</>
+            ) : connected ? (
               <><LayoutDashboard className="w-5 h-5" /> DASHBOARD</>
             ) : (
               <><SiGithub className="w-5 h-5" /> GET STARTED <ArrowRight className="w-5 h-5" strokeWidth={3} /></>

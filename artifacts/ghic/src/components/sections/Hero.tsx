@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { ArrowRight, Zap, GitPullRequest, CheckCircle2, Tag, AlertCircle, BarChart3, Shield, Clock, LayoutDashboard } from 'lucide-react';
-import { SiGithub } from 'react-icons/si';
-import { GITHUB_APP_INSTALL_URL } from '@/lib/links';
 import { DASHBOARD_URL } from '@/lib/firebase';
 import { useHubConnection } from '@/lib/hub-connection';
 
@@ -28,9 +26,9 @@ const Triangle = ({ className = '', color = '#000' }) => (
 const steps = [
   { id: 1, label: 'Issue received', icon: GitPullRequest },
   { id: 2, label: 'AI analyzing', icon: Zap },
-  { id: 3, label: 'Duplicates checked', icon: Shield },
-  { id: 4, label: 'Labels assigned', icon: Tag },
-  { id: 5, label: 'Priority set', icon: AlertCircle },
+  { id: 3, label: 'Related issues checked', icon: Shield },
+  { id: 4, label: 'Label suggested', icon: Tag },
+  { id: 5, label: 'Priority suggested', icon: AlertCircle },
   { id: 6, label: 'Dashboard updated', icon: BarChart3 },
 ];
 
@@ -109,7 +107,7 @@ function IssueCard() {
         <div className="mt-3 p-3 flex items-center gap-2 bg-black text-white text-xs font-bold uppercase tracking-wider"
           style={{ border: '2px solid #000' }}>
           <Zap className="w-4 h-4" />
-          Classified in 0.4s · Confidence 96%
+          Example analysis complete
         </div>
       )}
     </div>
@@ -117,10 +115,7 @@ function IssueCard() {
 }
 
 export function Hero() {
-  // Signed in, not necessarily installed. A visitor with an account but
-  // no GitHub App yet is still someone for whom "Get Started" is the
-  // wrong offer -- their next step is the hub, not another signup.
-  const { signedIn } = useHubConnection();
+  const { connected, settling } = useHubConnection();
 
   return (
     <section
@@ -179,7 +174,7 @@ export function Hero() {
             </h1>
 
             <p className="mt-8 max-w-xl text-base md:text-lg font-medium leading-relaxed text-black/75">
-              GHIC uses AI to instantly classify, deduplicate, and prioritize every GitHub issue — so your engineering team ships features, not spreadsheets.
+              GHIC classifies and prioritizes incoming GitHub issues, then grounds its recommendation in relevant repository evidence when available.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -187,7 +182,9 @@ export function Hero() {
                 data-testid="hero-install"
                 className="display hard bg-black text-white px-7 py-4 text-base md:text-lg shadow-hard-gray inline-flex items-center gap-3 card-t wobble no-underline"
               >
-                {signedIn ? (
+                {settling ? (
+                  <><Clock className="w-5 h-5" strokeWidth={3} /> CHECKING GHIC</>
+                ) : connected ? (
                   <><LayoutDashboard className="w-5 h-5" strokeWidth={3} /> DASHBOARD</>
                 ) : (
                   <>GET STARTED FREE <ArrowRight className="w-5 h-5" strokeWidth={3} /></>
@@ -196,21 +193,12 @@ export function Hero() {
               <a href="#demo"
                 className="display hard bg-white text-black px-6 py-4 text-base md:text-lg shadow-hard-sm card-t wobble inline-flex items-center gap-3"
               >
-                SEE LIVE DEMO
-              </a>
-              {/* Kept for people who already know what they want. It works:
-                  the hub recognises an installation that arrived without a
-                  state and offers to link it. */}
-              <a href={GITHUB_APP_INSTALL_URL}
-                data-testid="hero-install-direct"
-                className="text-sm font-bold uppercase tracking-widest text-black/60 hover:text-black inline-flex items-center gap-2 no-underline"
-              >
-                <SiGithub className="w-4 h-4" /> Install on GitHub
+                SEE EXAMPLE
               </a>
             </div>
 
             <p className="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-black/50 border-b-[3px] border-black/20 pb-2 inline-block">
-              94¢ of every dollar goes to your engineering velocity
+              Classification · repository evidence · recommendation
             </p>
           </div>
 
@@ -218,7 +206,7 @@ export function Hero() {
           <div className="md:col-span-5 hard shadow-hard bg-white p-6 relative overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-8 stripes border-b-[3px] border-black" />
             <div className="pt-6">
-              <p className="display text-sm uppercase tracking-[0.2em] mb-4">LIVE PROCESSING</p>
+              <p className="display text-sm uppercase tracking-[0.2em] mb-4">EXAMPLE PROCESSING</p>
               <IssueCard />
             </div>
           </div>
@@ -227,33 +215,33 @@ export function Hero() {
           <div className="md:col-span-3 hard bg-black text-white shadow-hard p-6 relative overflow-hidden card-t wobble">
             <div className="absolute -right-6 -top-6 w-28 h-28 dots-white opacity-30 rounded-full" />
             <BarChart3 className="w-7 h-7 mb-4" strokeWidth={2.5} />
-            <p className="display text-4xl md:text-5xl">82%</p>
+            <p className="display text-3xl md:text-4xl">CODE</p>
             <p className="mt-2 text-sm font-bold uppercase tracking-widest text-white/60">
-              precision on held-out issues
+              repository-grounded evidence
             </p>
           </div>
 
           <div className="md:col-span-3 hard bg-white shadow-hard p-6 relative overflow-hidden card-t wobble">
             <Squiggle className="absolute top-3 right-4 w-20 h-5" stroke={GRAY} width={8} />
             <Clock className="w-7 h-7 mb-4" strokeWidth={2.5} />
-            <p className="display text-4xl md:text-5xl">2.3m</p>
+            <p className="display text-3xl md:text-4xl">FAST</p>
             <p className="mt-2 text-sm font-bold uppercase tracking-widest text-black/60">
-              average triage time
+              webhook-driven analysis
             </p>
           </div>
 
           <div className="md:col-span-3 hard shadow-hard p-6 relative overflow-hidden card-t wobble" style={{ background: GRAY }}>
             <Triangle className="absolute -bottom-3 -right-2 w-20 h-20 rotate-12 opacity-20" />
             <Shield className="w-7 h-7 mb-4" strokeWidth={2.5} />
-            <p className="display text-4xl md:text-5xl">↓18%</p>
+            <p className="display text-3xl md:text-4xl">HUMAN</p>
             <p className="mt-2 text-sm font-bold uppercase tracking-widest text-black/60">
-              duplicate issue rate
+              maintainer makes the decision
             </p>
           </div>
 
           <div className="md:col-span-3 hard shadow-hard relative overflow-hidden zigzag hidden md:flex items-center justify-center">
             <div className="hard bg-white px-4 py-3 rotate-[-3deg] shadow-hard-sm">
-              <p className="display text-lg whitespace-nowrap">ZERO. MISSED. BUGS.</p>
+              <p className="display text-lg whitespace-nowrap">NO CODE WRITES.</p>
             </div>
           </div>
         </div>

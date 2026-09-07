@@ -1,40 +1,15 @@
 /**
  * External destinations, in one place so a moved URL is a one-line change.
  *
- * The distinction that matters here, because the buttons look similar but
- * do different things:
- *
- *   "Sign in"  -> /login. Firebase + GitHub OAuth. Identity only; grants
- *                 read:user and user:email and nothing else.
- *   "Install"  -> the GitHub App installation flow. This is what actually
- *                 puts GHIC on a repository, and it carries the Issues
- *                 read/write permission.
- *
- * They are separate consents on purpose, and wiring "Install" at the login
- * page would be wrong: signing in grants GHIC nothing over your code, and
- * a user who signs in but never installs has a working account and an
- * inert product.
- *
- * Install was the primary action here for exactly that reason, and it made
- * the product harder to start. Installing first produces an installation
- * with no GHIC account to attach it to, so the callback cannot link it: the
- * visitor signs in anyway, then completes the connection through a recovery
- * screen built for people who arrived from GitHub's own App page. Seven
- * steps where signing in first takes four.
- *
- * So "Get Started" leads to the hub, and installing on GitHub stays one
- * click away for anyone who already knows what they want. The consent
- * distinction above is unchanged -- only which door is the obvious one.
+ * Product installation always starts in the authenticated Hub. The Hub
+ * creates the one-time callback intent that binds Firebase identity and
+ * workspace membership before redirecting to GitHub. A bare GitHub App
+ * installation URL cannot provide that binding and is therefore not exposed
+ * as a product CTA.
  */
 
 /** GitHub App slug — verified live at github.com/apps/<slug>. */
 export const GITHUB_APP_SLUG = 'ghic-github-issue-intelligence';
-
-/**
- * Installation flow. GitHub redirects anonymous visitors to sign in first,
- * then to repository selection, so this works for logged-out users.
- */
-export const GITHUB_APP_INSTALL_URL = `https://github.com/apps/${GITHUB_APP_SLUG}/installations/new`;
 
 /** The App's public marketing page on GitHub. */
 export const GITHUB_APP_URL = `https://github.com/apps/${GITHUB_APP_SLUG}`;

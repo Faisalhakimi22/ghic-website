@@ -1,107 +1,132 @@
 import { motion } from 'framer-motion';
-import { Quote } from 'lucide-react';
+import {
+  FileSearch,
+  MessageSquareText,
+  ShieldCheck,
+  UserCheck,
+  type LucideIcon,
+} from 'lucide-react';
 
 const GRAY = '#C9C9C9';
 
-const Squiggle = ({ className = '', stroke = '#000', width = 6 }) => (
-  <svg className={className} viewBox="0 0 200 40" fill="none" preserveAspectRatio="none">
-    <path d="M0 20 Q 12.5 0, 25 20 T 50 20 T 75 20 T 100 20 T 125 20 T 150 20 T 175 20 T 200 20"
-      stroke={stroke} strokeWidth={width} strokeLinecap="round" />
-  </svg>
-);
+type ProductValue = {
+  icon: LucideIcon;
+  title: string;
+  detail: string;
+  black: boolean;
+};
 
-const testimonials = [
+const values: ProductValue[] = [
   {
-    quote: 'We went from 6-hour average triage time to under 15 minutes. GHIC doesn\'t just save time — it makes our entire team smarter about what matters.',
-    author: 'Sarah Chen',
-    title: 'VP Engineering',
-    company: 'Cascade Systems',
+    icon: FileSearch,
+    title: 'Repository evidence',
+    detail:
+      'Relevant files and functions are shown when retrieval has enough evidence. Operational failures and low confidence are disclosed.',
     black: true,
   },
   {
-    quote: 'The duplicate detection alone saved us from merging 3 conflicting bug fixes in the same sprint. The ROI was immediate.',
-    author: 'Marcus Webb',
-    title: 'Lead Engineer',
-    company: 'Finflow Technologies',
+    icon: MessageSquareText,
+    title: 'A useful recommendation',
+    detail:
+      'Each completed analysis brings classification, priority, reasoning, missing information, and a next step into one maintainer-facing result.',
     black: false,
   },
   {
-    quote: 'I was skeptical about AI in our engineering workflow. GHIC\'s explainable AI decisions changed my mind completely. We trust it.',
-    author: 'Priya Sharma',
-    title: 'CTO',
-    company: 'Lattice Labs',
+    icon: ShieldCheck,
+    title: 'Workspace boundaries',
+    detail:
+      'Installation, repository, issue history, state, vectors, and ledger queries are scoped to the authenticated workspace.',
     black: false,
   },
   {
-    quote: 'We process 2,000+ issues a month across 15 repositories. GHIC handles it without breaking a sweat.',
-    author: 'James O\'Brien',
-    title: 'Platform Engineering Lead',
-    company: 'Orbit Commerce',
+    icon: UserCheck,
+    title: 'Human decision',
+    detail:
+      'GHIC supplies evidence and a recommendation. It does not merge code or replace the maintainer who decides what happens next.',
     black: true,
   },
 ];
 
 export function Testimonials() {
   return (
-    <section className="bg-white py-16 md:py-20" style={{ borderTop: '3px solid #000', fontFamily: "'Space Grotesk', sans-serif" }}>
+    <section
+      className="bg-white py-16 md:py-20"
+      style={{
+        borderTop: '3px solid #000',
+        fontFamily: "'Space Grotesk', sans-serif",
+      }}
+    >
       <div className="max-w-7xl mx-auto px-5 md:px-8">
-        {/* Header */}
         <div className="mb-10 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.35em] mb-4 flex items-center justify-center gap-3">
             <span className="inline-block w-8 h-[3px] bg-black" />
-            What Teams Say
+            What You Can Verify
             <span className="inline-block w-8 h-[3px] bg-black" />
           </p>
-          <h2 className="text-[2rem] md:text-[3.5rem] leading-[0.95]" style={{ fontFamily: "'Archivo Black', sans-serif", letterSpacing: '-0.02em' }}>
-            TRUSTED BY{' '}
+          <h2
+            className="text-[2rem] md:text-[3.5rem] leading-[0.95]"
+            style={{ fontFamily: "'Archivo Black', sans-serif" }}
+          >
+            EVIDENCE BEFORE{' '}
             <span className="relative inline-block">
-              <span className="absolute -inset-x-1 inset-y-0.5 bg-black" aria-hidden />
-              <span className="relative text-white px-1">ENGINEERING TEAMS.</span>
+              <span
+                className="absolute -inset-x-1 inset-y-0.5 bg-black"
+                aria-hidden
+              />
+              <span className="relative text-white px-1">AUTOMATION.</span>
             </span>
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="p-7 md:p-8 relative overflow-hidden"
-              style={{
-                border: '3px solid #000',
-                boxShadow: t.black ? `8px 8px 0 ${GRAY}` : '8px 8px 0 #000',
-                background: t.black ? '#000' : '#fff',
-                color: t.black ? '#fff' : '#000',
-              }}
-            >
-              {t.black && (
-                <div className="absolute inset-x-0 top-0 h-2"
-                  style={{ background: 'repeating-linear-gradient(45deg, #fff 0 6px, transparent 6px 12px)' }} />
-              )}
-              <Quote
-                className="w-9 h-9 mb-5"
-                fill={t.black ? '#fff' : '#000'}
-                strokeWidth={0}
-              />
-              <p className="text-lg md:text-xl leading-snug font-bold mb-5"
-                style={{ fontFamily: "'Archivo Black', sans-serif", letterSpacing: '-0.01em' }}>
-                "{t.quote}"
-              </p>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-bold text-sm uppercase tracking-widest">{t.author}</p>
-                  <p className="text-xs font-semibold uppercase tracking-wider mt-0.5"
-                    style={{ color: t.black ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.45)' }}>
-                    {t.title} · {t.company}
-                  </p>
-                </div>
-                <Squiggle className="w-20 h-5 opacity-30" stroke={t.black ? '#fff' : GRAY} width={7} />
-              </div>
-            </motion.div>
-          ))}
+          {values.map((value, index) => {
+            const Icon = value.icon;
+            return (
+              <motion.div
+                key={value.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="p-7 md:p-8 relative overflow-hidden"
+                style={{
+                  border: '3px solid #000',
+                  boxShadow: value.black
+                    ? `8px 8px 0 ${GRAY}`
+                    : '8px 8px 0 #000',
+                  background: value.black ? '#000' : '#fff',
+                  color: value.black ? '#fff' : '#000',
+                }}
+              >
+                {value.black && (
+                  <div
+                    className="absolute inset-x-0 top-0 h-2"
+                    style={{
+                      background:
+                        'repeating-linear-gradient(45deg, #fff 0 6px, transparent 6px 12px)',
+                    }}
+                  />
+                )}
+                <Icon className="w-9 h-9 mb-5" strokeWidth={2.25} />
+                <h3
+                  className="text-lg md:text-xl leading-snug font-bold mb-3 uppercase"
+                  style={{ fontFamily: "'Archivo Black', sans-serif" }}
+                >
+                  {value.title}
+                </h3>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{
+                    color: value.black
+                      ? 'rgba(255,255,255,0.65)'
+                      : 'rgba(0,0,0,0.6)',
+                  }}
+                >
+                  {value.detail}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

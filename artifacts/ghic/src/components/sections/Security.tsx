@@ -20,7 +20,7 @@ const GRAY = '#C9C9C9';
  * install screen, and the secret-exclusion behaviour is in the source.
  */
 const securityFeatures = [
-  { icon: Key,         title: 'Minimal Permissions',   desc: 'Issues read/write and metadata read. Nothing else — check the install screen.', black: true },
+  { icon: Key,         title: 'Visible Permissions',   desc: 'GitHub shows the App permissions and selected repository access before installation.', black: true },
   { icon: Lock,        title: 'Encrypted In Transit',  desc: 'All traffic over TLS; data at rest encrypted by our hosting and database providers.', black: false },
   { icon: Eye,         title: 'No Code Written',        desc: 'GHIC comments and suggests. It never merges, closes, pushes, or edits your code.', black: false },
   { icon: Shield,      title: 'Secrets Never Indexed', desc: 'Credential files are skipped and token-shaped values redacted before anything is stored.', black: true },
@@ -40,10 +40,10 @@ export function Security() {
               Security
             </p>
             <h2 className="text-[2rem] md:text-[3.5rem] leading-[0.95]" style={{ fontFamily: "'Archivo Black', sans-serif", letterSpacing: '-0.02em' }}>
-              BUILT FOR{' '}
+              SECURITY YOU CAN{' '}
               <span className="relative inline-block">
                 <span className="absolute -inset-x-1 inset-y-0.5 bg-black" aria-hidden />
-                <span className="relative text-white px-1">ENTERPRISE.</span>
+                <span className="relative text-white px-1">INSPECT.</span>
               </span>
             </h2>
           </div>

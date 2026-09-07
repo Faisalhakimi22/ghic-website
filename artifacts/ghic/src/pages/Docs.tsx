@@ -1,22 +1,23 @@
 import { ArrowRight, BookOpen, Github, Terminal, Webhook } from 'lucide-react';
 import { PageShell } from '@/components/PageShell';
-import { GITHUB_APP_INSTALL_URL, GITHUB_REPO_URL } from '@/lib/links';
+import { GITHUB_REPO_URL } from '@/lib/links';
+import { DASHBOARD_URL } from '@/lib/firebase';
 
 const steps = [
   {
     icon: Github,
-    title: 'Install the GitHub App',
-    body: 'Install GHIC on the repositories you want triaged. It requests Issues (read & write) and Metadata (read) — nothing else, and never contents write access.',
+    title: 'Sign in and connect GitHub',
+    body: 'Sign in to the Hub with Firebase, start the secure GitHub App flow, and select the repositories GHIC may process.',
   },
   {
     icon: Webhook,
     title: 'Open an issue',
-    body: 'GHIC receives the webhook, scores the issue with a calibrated classifier, and posts its analysis as a comment. Nothing is labelled, closed, or assigned automatically.',
+    body: 'GHIC verifies the signed webhook and current repository access before classification, retrieval, reasoning, or any GitHub write.',
   },
   {
     icon: Terminal,
-    title: 'Tune the threshold',
-    body: 'Every repository has a different score distribution. Start from the global default and adjust per repository once you have seen a week of predictions.',
+    title: 'Review the result',
+    body: 'Use the Hub and GitHub comment to inspect classification, risk, repository evidence, missing information, and the recommended next step.',
   },
 ];
 
@@ -96,7 +97,7 @@ export default function Docs() {
 
         <div className="mt-12 text-center">
           <a
-            href={GITHUB_APP_INSTALL_URL}
+            href={DASHBOARD_URL}
             className="inline-flex items-center gap-2 bg-black text-white px-6 py-3.5 text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors no-underline"
             style={{
               border: '3px solid #000',
@@ -104,7 +105,7 @@ export default function Docs() {
               fontFamily: "'Archivo Black', sans-serif",
             }}
           >
-            Install free <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
+            Open the Hub <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
           </a>
         </div>
       </div>

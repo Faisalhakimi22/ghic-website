@@ -25,10 +25,9 @@ type HubConnectionContextValue = {
   /**
    * There is a signed-in user, by either route.
    *
-   * This is what a CTA should key on. `connected` means something narrower
-   * -- that a GitHub App installation exists -- and a signed-in user who
-   * has not installed the App yet is still someone for whom "Get Started"
-   * is the wrong thing to offer.
+   * This remains available for account-aware UI. Installation CTAs use
+   * `connected`, because signing out or uninstalling the App must restore the
+   * default Get Started state.
    */
   signedIn: boolean;
   /** True while neither route has answered yet. Render nothing auth-shaped. */
@@ -61,12 +60,9 @@ function isConnectionMessage(value: unknown): value is HubConnectionMessage {
  * whether the user has signed out of the Hub.
  */
 export function HubConnectionProvider({ children }: { children: ReactNode }) {
-  // The local session matters as much as the bridge's answer, and is more
-  // reliable than it. Browsers partition storage for cross-site iframes, so
-  // the Hub loaded inside this page may see an empty Firebase store and
-  // report a signed-out user who is in fact signed in. A first-party
-  // session read on this origin is not subject to that, so it is consulted
-  // first and the bridge only ever adds to what it knows.
+  // The local Firebase session can establish person identity on this origin,
+  // but it cannot prove a GitHub installation exists. Only the authenticated
+  // Hub bridge decides `connected`.
   const { user, loading: authLoading } = useAuth();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [status, setStatus] = useState<HubConnectionStatus>('checking');
@@ -113,10 +109,7 @@ export function HubConnectionProvider({ children }: { children: ReactNode }) {
       connected: status === 'connected',
       authenticated,
       signedIn,
-      // A known signed-in user settles immediately. Only a locally
-      // signed-out visitor has to wait for the bridge, and that wait is
-      // bounded by INITIAL_CHECK_TIMEOUT_MS.
-      settling: authLoading || (!signedIn && status === 'checking'),
+      settling: authLoading || status === 'checking',
     };
   }, [authLoading, authenticated, status, user]);
 

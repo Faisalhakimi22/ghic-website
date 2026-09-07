@@ -95,7 +95,7 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           {hub.settling ? (
             <div className="hidden md:block w-32 h-9" aria-hidden />
-          ) : hub.signedIn ? (
+          ) : hub.connected ? (
             <>
               <a
                 href={DASHBOARD_URL}
@@ -164,7 +164,9 @@ export function Navbar() {
             </Link>
           ))}
 
-          {hub.signedIn ? (
+          {hub.settling ? (
+            <div className="h-12" aria-hidden />
+          ) : hub.connected ? (
             <>
               <a
                 href={DASHBOARD_URL}

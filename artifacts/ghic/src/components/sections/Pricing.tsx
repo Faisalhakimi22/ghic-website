@@ -22,22 +22,22 @@ const plans = [
     price: 'Free',
     period: '',
     desc: 'Perfect for open source maintainers and solo engineers.',
-    features: ['1 repository', '500 issues/month', 'AI Classification', 'Basic Dashboard', 'Community support'],
+    features: ['1 repository', '50 issue analyses/day', 'AI classification', 'Repository evidence', 'Community support'],
     cta: 'Install Free',
     action: 'install' as const,
-    note: 'Installs on GitHub instantly. No card required.',
+    note: 'Opens the secure GitHub App installation flow. No card required.',
     black: false,
     popular: false,
   },
   {
     name: 'Pro',
-    price: '$49',
-    period: '/mo',
+    price: 'Contact',
+    period: '',
     desc: 'For professional engineering teams shipping fast.',
-    features: ['10 repositories', '10,000 issues/month', 'All AI features', 'Priority Prediction', 'Duplicate Detection', 'Analytics Dashboard', 'Email support'],
-    cta: 'Request Pro Access',
-    action: 'contact' as const,
-    note: 'Billing is arranged by email — we reply within one business day.',
+    features: ['Higher repository limits', 'Higher issue limits', 'Repository-grounded analysis', 'Priority and severity reasoning', 'Duplicate candidates', 'Analytics dashboard', 'Email support'],
+    cta: 'Upgrade to Pro',
+    action: 'upgrade' as const,
+    note: 'Secure checkout hosted by Stripe. Cancel any time.',
     black: true,
     popular: true,
   },
@@ -46,7 +46,7 @@ const plans = [
     price: 'Custom',
     period: '',
     desc: 'For organizations with custom requirements and scale.',
-    features: ['Unlimited repositories', 'Unlimited issues', 'Custom AI models', 'SSO & RBAC', 'SLA guarantee', 'Dedicated support'],
+    features: ['Custom repository limits', 'Custom issue limits', 'Workspace RBAC', 'Private repositories', 'Support by agreement'],
     cta: 'Contact Sales',
     action: 'contact' as const,
     note: 'Tell us your scale and requirements and we will scope it.',
@@ -62,10 +62,7 @@ const HalfCircle = ({ className = '', color = '#000' }) => (
 );
 
 export function Pricing() {
-  // Signed in, not necessarily installed. A visitor with an account but
-  // no GitHub App yet is still someone for whom "Get Started" is the
-  // wrong offer -- their next step is the hub, not another signup.
-  const { signedIn } = useHubConnection();
+  const { connected, settling } = useHubConnection();
 
   return (
     <section id="pricing" className="bg-white py-16 md:py-20" style={{ borderTop: '3px solid #000', fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -85,7 +82,7 @@ export function Pricing() {
             </span>
           </h2>
           <p className="mt-4 text-sm font-semibold uppercase tracking-[0.2em] text-black/50">
-            Start free. Scale as you grow. Cancel any time.
+            Start free. Contact us when you need higher limits.
           </p>
         </div>
 
@@ -110,7 +107,7 @@ export function Pricing() {
                   className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-xs font-bold uppercase tracking-[0.2em] bg-black text-white whitespace-nowrap"
                   style={{ border: '2px solid #000' }}
                 >
-                  Most Popular
+                  Team Plan
                 </div>
               )}
               {plan.black && (
@@ -144,7 +141,9 @@ export function Pricing() {
                 href={
                   plan.action === 'install'
                     ? DASHBOARD_URL
-                    : planEnquiryMailto(plan.name, plan.price, plan.period)
+                    : plan.action === 'upgrade'
+                      ? `${DASHBOARD_URL}/settings`
+                      : planEnquiryMailto(plan.name, plan.price, plan.period)
                 }
                 data-testid={`pricing-cta-${plan.name.toLowerCase()}`}
                 className="w-full py-4 text-sm font-bold uppercase tracking-widest transition-all wobble card-t block text-center no-underline"
@@ -156,7 +155,11 @@ export function Pricing() {
                   color: plan.black ? '#000' : '#fff',
                 }}
               >
-                {plan.action === 'install' && signedIn ? 'Dashboard' : plan.cta}
+                {plan.action === 'install' && settling
+                  ? 'Checking GHIC'
+                  : plan.action === 'install' && connected
+                    ? 'Dashboard'
+                    : plan.cta}
               </a>
 
               <p
@@ -170,7 +173,7 @@ export function Pricing() {
         </div>
 
         <p className="mt-8 text-center text-xs font-bold uppercase tracking-[0.25em] text-black/40">
-          Starter is free forever · Paid plans arranged by email · No credit card to get started
+          Starter includes 1 repository and 50 analyses/day · Paid access arranged by email · No credit card to get started
         </p>
       </div>
     </section>

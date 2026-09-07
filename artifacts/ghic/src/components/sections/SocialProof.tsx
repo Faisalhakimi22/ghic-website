@@ -1,14 +1,14 @@
 const GRAY = '#C9C9C9';
 
 const TICKER_ITEMS = [
-  '96.2% classification accuracy',
-  'under 2.3 minutes average triage',
-  'zero configuration required',
-  '10,000+ repositories monitored',
-  'installs in 60 seconds',
-  '2,400+ engineering teams',
-  'explainable AI decisions',
-  'real-time webhook events',
+  '82% precision on 1,177 held-out issues',
+  'repository-grounded recommendations',
+  'GitHub App authorization',
+  'workspace-scoped data',
+  'maintainer-controlled decisions',
+  'no source-code write permission',
+  'webhook-driven triage',
+  '90-day product-data retention',
 ];
 
 export function SocialProof() {
@@ -32,14 +32,14 @@ export function SocialProof() {
         </div>
       </div>
 
-      {/* Brand logos row */}
+      {/* Product principles, not fabricated customer logos. */}
       <div className="bg-white py-10" style={{ borderBottom: '3px solid #000', fontFamily: "'Space Grotesk', sans-serif" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-8">
           <p className="text-center text-xs font-bold uppercase tracking-[0.35em] text-black/40 mb-8">
-            Trusted by engineering teams at
+            Built around the maintainer workflow
           </p>
           <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-4">
-            {['GitHub', 'Stripe', 'Vercel', 'Linear', 'Notion', 'Atlassian', 'Datadog', 'HashiCorp'].map(name => (
+            {['Classify', 'Retrieve evidence', 'Explain', 'Recommend', 'Review'].map(name => (
               <span
                 key={name}
                 className="text-xs font-bold uppercase tracking-[0.3em] text-black/35 hover:text-black/70 transition-colors cursor-default"

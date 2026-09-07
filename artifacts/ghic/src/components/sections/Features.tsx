@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Tags, AlertTriangle, Copy, Zap, LineChart, BrainCircuit, GitCommit, BellRing, LayoutDashboard, Terminal } from 'lucide-react';
+import { Tags, AlertTriangle, SearchCode, MessageSquareText, GitBranch, LineChart, LayoutDashboard, Terminal } from 'lucide-react';
 
 const GRAY = '#C9C9C9';
 
@@ -11,16 +11,14 @@ const Squiggle = ({ className = '', stroke = '#000', width = 6 }) => (
 );
 
 const features = [
-  { icon: Tags,           title: 'AI Classification',    desc: 'Categorizes every issue by type, component, and severity the moment it arrives.' },
-  { icon: AlertTriangle,  title: 'Priority Prediction',  desc: 'Predicts impact and urgency using historical velocity, user sentiment, and engineering context.' },
-  { icon: Copy,           title: 'Duplicate Detection',  desc: 'Finds semantically similar issues across your entire repository history in milliseconds.' },
-  { icon: Zap,            title: 'Smart Labels',         desc: 'Suggests and applies precise labels based on issue content, not just keywords.' },
-  { icon: LineChart,      title: 'Engineering Analytics',desc: 'Tracks resolution velocity, triage time, and issue distribution across your org.' },
-  { icon: BrainCircuit,   title: 'Explainable AI',       desc: 'Every decision includes a clear reasoning trace your team can inspect and override.' },
-  { icon: GitCommit,      title: 'Repo Insights',        desc: 'Surfaces hidden patterns: recurring issues, high-churn areas, and debt accumulation.' },
-  { icon: BellRing,       title: 'Real-time Webhooks',   desc: 'Instant notifications with structured payloads. Build on top of GHIC intelligence.' },
-  { icon: LayoutDashboard,title: 'Developer Dashboard',  desc: 'A live command center for your repository health, velocity, and issue backlog.' },
-  { icon: Terminal,       title: 'GitHub App',           desc: 'One-click install. Zero configuration. Starts working in under 60 seconds.' },
+  { icon: Tags,             title: 'Issue Classification', desc: 'Classifies incoming issues and records the result for maintainers to review.' },
+  { icon: AlertTriangle,    title: 'Risk and Priority',    desc: 'Combines statistical scoring with AI reasoning to surface issues that need attention.' },
+  { icon: SearchCode,       title: 'Repository Evidence',  desc: 'Retrieves relevant files and functions from the authorized repository index.' },
+  { icon: MessageSquareText,title: 'Grounded Reasoning',   desc: 'Explains the recommendation using retrieved evidence, or says clearly when evidence is unavailable.' },
+  { icon: GitBranch,        title: 'Related Issues',       desc: 'Surfaces assistive duplicate candidates for a maintainer to confirm.' },
+  { icon: LineChart,        title: 'Real Analytics',       desc: 'Reports classifications, priorities, activity, and retrieval outcomes from persisted analyses.' },
+  { icon: LayoutDashboard,  title: 'Workspace Dashboard',  desc: 'Shows connected repositories, issue analyses, usage, and processing history for the active workspace.' },
+  { icon: Terminal,         title: 'GitHub App',            desc: 'Install through GitHub, select repositories, and manage access from the Hub.' },
 ];
 
 const cardStyles = [
@@ -48,15 +46,15 @@ export function Features() {
               What GHIC Does
             </p>
             <h2 className="text-[2rem] md:text-[3.5rem] leading-[0.95]" style={{ fontFamily: "'Archivo Black', sans-serif", letterSpacing: '-0.02em' }}>
-              TEN WEAPONS FOR{' '}
+              ISSUE SIGNAL,{' '}
               <span className="relative inline-block">
                 <span className="absolute -inset-x-1 inset-y-0.5 bg-black" aria-hidden />
-                <span className="relative text-white px-1">YOUR BACKLOG.</span>
+                <span className="relative text-white px-1">GROUNDED.</span>
               </span>
             </h2>
           </div>
           <p className="max-w-xs text-sm font-semibold text-black/60 leading-relaxed md:text-right">
-            Powered by models trained on millions of software engineering patterns.
+            Built around evidence a maintainer can inspect before acting.
           </p>
         </div>
 

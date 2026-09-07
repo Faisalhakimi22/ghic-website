@@ -77,6 +77,15 @@ export default defineConfig(async ({ command }) => {
   build: {
     outDir: path.resolve(import.meta.dirname, 'dist/public'),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined;
+          if (id.includes('/firebase/') || id.includes('/@firebase/')) return 'firebase';
+          return 'vendor';
+        },
+      },
+    },
   },
   server: {
     port,

@@ -6,7 +6,7 @@ const GRAY = '#C9C9C9';
 const steps = [
   { id: 1, label: 'Issue Received',       icon: GitPullRequest },
   { id: 2, label: 'AI Analyzing Context', icon: Loader2, spin: true },
-  { id: 3, label: 'Duplicate Detection',  icon: Search },
+  { id: 3, label: 'Related Issue Search', icon: Search },
   { id: 4, label: 'Classification',       icon: Tag },
   { id: 5, label: 'Priority Prediction',  icon: AlertCircle },
   { id: 6, label: 'Dashboard Updated',    icon: BarChart3 },
@@ -29,13 +29,13 @@ export function LiveDemo() {
         <div className="mb-10">
           <p className="text-xs font-bold uppercase tracking-[0.35em] mb-3 flex items-center gap-3">
             <span className="inline-block w-8 h-[3px] bg-black" />
-            Not a Video
+            Illustrative Walkthrough
           </p>
           <h2 className="text-[2rem] md:text-[3.5rem] leading-[0.95]" style={{ fontFamily: "'Archivo Black', sans-serif", letterSpacing: '-0.02em' }}>
-            WATCH INTELLIGENCE{' '}
+            SEE AN ISSUE MOVE{' '}
             <span className="relative inline-block">
               <span className="absolute -inset-x-1 inset-y-0.5 bg-black" aria-hidden />
-              <span className="relative text-white px-1">IN REAL TIME.</span>
+              <span className="relative text-white px-1">THROUGH GHIC.</span>
             </span>
           </h2>
         </div>
@@ -88,7 +88,7 @@ export function LiveDemo() {
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-3 py-1.5"
                 style={{ border: '2px solid #000', background: '#000', color: '#fff' }}>
                 <div className="w-2 h-2 rounded-full bg-white" style={{ animation: 'pulse 1.5s ease-in-out infinite' }} />
-                GHIC Active
+                Example Flow
               </div>
             </div>
 
@@ -124,15 +124,15 @@ export function LiveDemo() {
                       {isActive && index === 1 && (
                         <div className="mt-2">
                           <div className="h-2 w-full bg-black/10 overflow-hidden" style={{ border: '1px solid #000' }}>
-                            <div className="h-full bg-black" style={{ width: '94%', transition: 'width 2s ease' }} />
+                            <div className="h-full bg-black" style={{ width: '70%', transition: 'width 2s ease' }} />
                           </div>
-                          <p className="text-xs font-mono mt-1 text-right">Confidence: 94%</p>
+                          <p className="text-xs font-mono mt-1 text-right">Statistical and AI analysis</p>
                         </div>
                       )}
                       {isActive && index === 2 && (
                         <div className="mt-1">
-                          <p className="text-xs font-mono text-black/60">Searching 1,247 issues...</p>
-                          <p className="text-xs font-mono text-black font-bold mt-0.5">0 duplicates found ✓</p>
+                          <p className="text-xs font-mono text-black/60">Searching authorized issue history...</p>
+                          <p className="text-xs font-mono text-black font-bold mt-0.5">No confident duplicate candidate</p>
                         </div>
                       )}
                       {isActive && index === 4 && (

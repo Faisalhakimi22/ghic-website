@@ -5,13 +5,13 @@ const GRAY = '#C9C9C9';
 
 const faqs = [
   { q: 'How does GHIC access my repositories?',    a: 'Via GitHub App with minimal required permissions. You control exactly which repositories GHIC can see.' },
-  { q: 'Does GHIC read my code?',                  a: 'By default, no — GHIC reads issue titles, descriptions, labels, and comments only. Optional repository analysis can be switched on per installation; when it is, credential files are skipped and token-shaped values are redacted before anything is stored.' },
+  { q: 'Does GHIC read my code?',                  a: 'Repository intelligence can index authorized source content to find relevant files and functions. GHIC never writes source code; credential files are skipped and token-shaped values are redacted before storage.' },
   { q: 'How accurate is the AI classification?',   a: 'On a held-out test set of 1,177 issues, the classifier reaches 82% precision at 54% recall. In plain terms: when it flags something as an actionable bug it is right about four times in five, and it catches roughly half of them. It is a ranking aid, not a replacement for triage — the full evaluation method and numbers are published in the model card.' },
-  { q: 'How long does it take to set up?',         a: 'Under 60 seconds. Install the GitHub App, select your repositories, and GHIC starts processing newly opened issues immediately.' },
-  { q: 'Can I use GHIC with private repositories?',a: 'Yes. Traffic is encrypted in transit and our hosting and database providers encrypt at rest. Private repositories are fully supported.' },
-  { q: 'What happens if the AI makes a wrong prediction?', a: 'Every prediction carries a confidence score and states the evidence behind it, and GHIC never labels, closes, or assigns anything on its own — a maintainer decides. Corrections are not fed back automatically; the model is retrained deliberately, against a fixed evaluation, rather than drifting from individual overrides.' },
-  { q: 'Is there an API for custom integrations?', a: 'Yes — a REST API with an OpenAPI spec covering predictions, stats, and repository analytics. There is no published SDK yet; the API is plain HTTP and token-authenticated.' },
-  { q: "What's your SLA for enterprise customers?", a: 'Enterprise agreements can include an uptime commitment, dedicated support, and custom escalation paths. These are scoped and agreed with you in writing rather than fixed in advance.' },
+  { q: 'How do I set it up?',                      a: 'Sign in to the Hub, install the GitHub App, and select the repositories GHIC may process. The Hub confirms the connection before issue analysis begins.' },
+  { q: 'Can I use GHIC with private repositories?',a: 'The GitHub App can process private repositories that the installing account explicitly authorizes. Repository evidence also requires a healthy index and the required read access.' },
+  { q: 'What happens if the AI makes a wrong prediction?', a: 'Every prediction carries a confidence score and states the evidence behind it. GHIC may post its configured comment or label, but it does not close, assign, merge, or write source code. The maintainer makes the final decision.' },
+  { q: 'Is there an API for custom integrations?', a: 'A public custom-integration API and SDK are not currently offered. The supported product surfaces are the GitHub App and authenticated GHIC Hub.' },
+  { q: "What's your SLA for enterprise customers?", a: 'There is no standard uptime SLA today. Any future support or availability commitment would need to be agreed in writing.' },
 ];
 
 export function FAQ() {
