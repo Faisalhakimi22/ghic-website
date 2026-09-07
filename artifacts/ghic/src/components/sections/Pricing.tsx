@@ -31,8 +31,8 @@ const plans = [
   },
   {
     name: 'Pro',
-    price: 'Contact',
-    period: '',
+    price: '$49',
+    period: '/mo',
     desc: 'For professional engineering teams shipping fast.',
     features: ['Higher repository limits', 'Higher issue limits', 'Repository-grounded analysis', 'Priority and severity reasoning', 'Duplicate candidates', 'Analytics dashboard', 'Email support'],
     cta: 'Upgrade to Pro',
