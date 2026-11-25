@@ -3,6 +3,7 @@ import { SiGithub } from 'react-icons/si';
 import { CONTACT_MAILTO } from '@/lib/links';
 import { DASHBOARD_URL } from '@/lib/firebase';
 import { useHubConnection } from '@/lib/hub-connection';
+import { STARTER_DAILY_ANALYSES } from '@/components/sections/Pricing';
 
 const GRAY = '#C9C9C9';
 
@@ -52,7 +53,7 @@ export function CTABanner() {
         </h2>
 
         <p className="text-base font-semibold text-white/60 mb-10 max-w-xl mx-auto leading-relaxed">
-          Starter includes one repository and 50 issue analyses per day. Connect through GitHub and keep the final decision with your maintainers.
+          Free during the beta: one repository and {STARTER_DAILY_ANALYSES} issue analyses per day. Connect through GitHub and keep the final decision with your maintainers.
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4">

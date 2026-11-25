@@ -15,7 +15,7 @@ export default function PricingPage() {
     <PageShell
       eyebrow="Pricing"
       title="SIMPLE, PREDICTABLE PRICING."
-      intro="Start free on a single repository. Scale when your issue volume does. No per-seat pricing, no surprise overages."
+      intro="GHIC is free during the beta. Paid plans with higher limits are coming; join the waitlist and we will tell you when they open."
     >
       <Pricing />
       <FAQ />

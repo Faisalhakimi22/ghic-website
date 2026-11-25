@@ -83,14 +83,15 @@ export default function Terms() {
             GitHub App on a repository costs nothing.
           </p>
           <p>
-            Paid plans (Pro and Enterprise) are arranged directly by email — there is no
-            checkout on this site and no payment is taken through it. Price, billing period,
-            and invoicing are agreed in writing before any charge is made, and you will never
-            be charged automatically as a result of installing the app or creating an account.
+            GHIC is in a free beta. Paid plans (Pro and Enterprise) are not on sale, no
+            payment is taken anywhere, and you will never be charged as a result of installing
+            the app or creating an account. If paid plans launch, they will be optional, the
+            price and terms will be published first, and nothing will be charged without your
+            explicit agreement.
           </p>
           <p>
-            You can stop a paid plan at any time by telling us; the arrangement ends at the end
-            of the period already paid for. Refunds outside that are handled case by case.
+            During the beta, limits and features may change, and the service is provided
+            without any uptime commitment.
           </p>
         </Section>
 

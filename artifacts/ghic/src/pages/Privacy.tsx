@@ -88,14 +88,10 @@ export default function Privacy() {
               <strong>Google Firebase</strong> — authentication
             </li>
             <li>
-              <strong>Groq</strong> and <strong>OpenRouter</strong> — AI analysis of issue text, where enabled
-            </li>
-            <li>
-              <strong>OpenRouter</strong> — embeddings of source-code excerpts from connected
-              repositories, used to find code relevant to an issue
-            </li>
-            <li>
-              <strong>Stripe</strong> — payments and billing details for paid plans
+              <strong>Groq</strong> and <strong>OpenRouter</strong> — AI analysis of the issue
+              text and of the short source-code excerpts retrieved as evidence for it, where
+              enabled. Repository indexes themselves are built on our own infrastructure and are
+              not sent to any AI provider.
             </li>
             <li>
               <strong>Sentry</strong> — error reports (exception type, message and stack trace;

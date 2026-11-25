@@ -31,12 +31,14 @@ export const CONTACT_MAILTO = `mailto:${CONTACT_EMAIL}`;
  * and the advertised price is exactly the thing to have in writing.
  */
 export function planEnquiryMailto(plan: string, price: string, period = ''): string {
-  const subject = `GHIC ${plan} plan enquiry`;
+  // Nothing is on sale during the beta, so this is a waitlist request,
+  // not an order: the wording must not read as agreeing to a price.
+  const subject = `GHIC ${plan} plan waitlist`;
   const body = [
     `Hi,`,
     ``,
-    `I'd like to get started with the GHIC ${plan} plan${
-      price && price !== 'Custom' ? ` (${price}${period})` : ''
+    `Please let me know when the GHIC ${plan} plan opens${
+      price && price !== 'Custom' ? ` (listed at ${price}${period})` : ''
     }.`,
     ``,
     `GitHub org / user:`,

@@ -7,22 +7,24 @@ import { useHubConnection } from '@/lib/hub-connection';
 const GRAY = '#C9C9C9';
 
 /**
- * `action` decides where the button goes, and it has to match the price
- * above it. Starter is genuinely free and self-serve, so it installs
- * straight away. Pro and Enterprise cost money and there is no checkout on
- * this site, so they open a request instead — a paid tier whose button
- * silently performs the free install is the inconsistency this fixes.
+ * GHIC is a free beta: nothing is for sale yet. Starter installs straight
+ * away. Pro and Enterprise show what is planned and open an email to join
+ * the waitlist; neither button may suggest a checkout exists, because none
+ * does.
  *
- * `note` states how the paid tiers are actually purchased, so nobody
- * presses the button expecting a card form.
+ * Starter's daily limit is sized to what the free AI provider tiers can
+ * actually serve across all workspaces. Keep it in step with the
+ * `ghic_plans` row (Hub migrations) and CTABanner.
  */
+export const STARTER_DAILY_ANALYSES = 20;
+
 const plans = [
   {
     name: 'Starter',
     price: 'Free',
     period: '',
     desc: 'Perfect for open source maintainers and solo engineers.',
-    features: ['1 repository', '50 issue analyses/day', 'AI classification', 'Repository evidence', 'Community support'],
+    features: ['1 repository', `${STARTER_DAILY_ANALYSES} issue analyses/day`, 'AI classification', 'Repository evidence', 'Community support'],
     cta: 'Install Free',
     action: 'install' as const,
     note: 'Opens the secure GitHub App installation flow. No card required.',
@@ -35,9 +37,9 @@ const plans = [
     period: '/mo',
     desc: 'For professional engineering teams shipping fast.',
     features: ['Higher repository limits', 'Higher issue limits', 'Repository-grounded analysis', 'Priority and severity reasoning', 'Duplicate candidates', 'Analytics dashboard', 'Email support'],
-    cta: 'Upgrade to Pro',
-    action: 'upgrade' as const,
-    note: 'Secure checkout hosted by Stripe. Cancel any time.',
+    cta: 'Join the Waitlist',
+    action: 'contact' as const,
+    note: 'Not on sale yet. We will email you when paid plans open.',
     black: true,
     popular: true,
   },
@@ -47,9 +49,9 @@ const plans = [
     period: '',
     desc: 'For organizations with custom requirements and scale.',
     features: ['Custom repository limits', 'Custom issue limits', 'Workspace RBAC', 'Private repositories', 'Support by agreement'],
-    cta: 'Contact Sales',
+    cta: 'Contact Us',
     action: 'contact' as const,
-    note: 'Tell us your scale and requirements and we will scope it.',
+    note: 'Not on sale during the beta. Tell us your scale and we will be in touch.',
     black: false,
     popular: false,
   },
@@ -82,7 +84,7 @@ export function Pricing() {
             </span>
           </h2>
           <p className="mt-4 text-sm font-semibold uppercase tracking-[0.2em] text-black/50">
-            Start free. Contact us when you need higher limits.
+            Free during the beta. Paid plans are coming.
           </p>
         </div>
 
@@ -107,7 +109,7 @@ export function Pricing() {
                   className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-xs font-bold uppercase tracking-[0.2em] bg-black text-white whitespace-nowrap"
                   style={{ border: '2px solid #000' }}
                 >
-                  Team Plan
+                  Coming Soon
                 </div>
               )}
               {plan.black && (
@@ -141,9 +143,7 @@ export function Pricing() {
                 href={
                   plan.action === 'install'
                     ? DASHBOARD_URL
-                    : plan.action === 'upgrade'
-                      ? `${DASHBOARD_URL}/settings`
-                      : planEnquiryMailto(plan.name, plan.price, plan.period)
+                    : planEnquiryMailto(plan.name, plan.price, plan.period)
                 }
                 data-testid={`pricing-cta-${plan.name.toLowerCase()}`}
                 className="w-full py-4 text-sm font-bold uppercase tracking-widest transition-all wobble card-t block text-center no-underline"
@@ -173,7 +173,7 @@ export function Pricing() {
         </div>
 
         <p className="mt-8 text-center text-xs font-bold uppercase tracking-[0.25em] text-black/40">
-          Starter includes 1 repository and 50 analyses/day · Paid access arranged by email · No credit card to get started
+          Starter includes 1 repository and {STARTER_DAILY_ANALYSES} analyses/day · Free during the beta · No credit card
         </p>
       </div>
     </section>
