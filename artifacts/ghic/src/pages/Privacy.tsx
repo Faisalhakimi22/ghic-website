@@ -28,7 +28,7 @@ export default function Privacy() {
         </div>
 
         <p className="text-xs uppercase tracking-widest text-black/45">
-          Last updated: 6 August 2026 · Operated by Faisal Hakimi (
+          Last updated: 26 November 2026 · Operated by Faisal Hakimi (
           <a href="https://hakimi.tech" className="underline hover:text-black">
             hakimi.tech
           </a>
@@ -88,13 +88,25 @@ export default function Privacy() {
               <strong>Google Firebase</strong> — authentication
             </li>
             <li>
-              <strong>Groq</strong> and <strong>OpenRouter</strong> — AI analysis, where enabled
+              <strong>Groq</strong> and <strong>OpenRouter</strong> — AI analysis of issue text, where enabled
+            </li>
+            <li>
+              <strong>OpenRouter</strong> — embeddings of source-code excerpts from connected
+              repositories, used to find code relevant to an issue
+            </li>
+            <li>
+              <strong>Stripe</strong> — payments and billing details for paid plans
+            </li>
+            <li>
+              <strong>Sentry</strong> — error reports (exception type, message and stack trace;
+              never issue text, request bodies, headers or user identity)
             </li>
             <li>
               <strong>Upstash</strong> — background job queue
             </li>
             <li>
-              <strong>GitHub</strong> — the source of the data and where results are posted
+              <strong>GitHub</strong> — the source of the data, where results are posted, and
+              GitHub Actions runners that build repository indexes
             </li>
           </ul>
         </Section>
