@@ -27,7 +27,7 @@ const plans = [
     features: ['1 repository', `${STARTER_DAILY_ANALYSES} issue analyses/day`, 'AI classification', 'Repository evidence', 'Community support'],
     cta: 'Install Free',
     action: 'install' as const,
-    note: 'Opens the secure GitHub App installation flow. No card required.',
+    note: 'Opens the secure GitHub App installation flow. No card required. Beta places are limited.',
     black: false,
     popular: false,
   },

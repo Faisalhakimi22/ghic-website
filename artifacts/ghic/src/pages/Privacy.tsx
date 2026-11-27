@@ -113,6 +113,11 @@ export default function Privacy() {
             records are retained while your account is active. Uninstalling the GitHub App
             stops all further processing immediately.
           </p>
+          <p>
+            Places in the free beta are limited. If the beta is full when you connect GitHub, we
+            keep your workspace and account email on a waitlist so we can tell you when a place
+            opens. The waitlist entry is deleted with your workspace.
+          </p>
         </Section>
 
         <Section heading="Your choices">
